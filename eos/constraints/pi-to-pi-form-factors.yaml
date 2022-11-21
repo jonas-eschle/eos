@@ -1,0 +1,40 @@
+# vim: set fdm=marker :
+
+#####################
+# ETM Collaboration #
+#####################
+#
+# {{{
+pi->pi::f_+[q2]@ETM:2008A: 
+  type: MultivariateGaussian
+  dim: 5
+  observables:
+    - pi->pi::f_+(q2);current=EM
+    - pi->pi::f_+(q2);current=EM
+    - pi->pi::f_+(q2);current=EM
+    - pi->pi::f_+(q2);current=EM
+    - pi->pi::f_+(q2);current=EM
+  kinematics:
+    - { q2: -0.794 }
+    - { q2: -0.503 }
+    - { q2: -0.299 }
+    - { q2: -0.148 }
+    - { q2: -0.050 }
+  options:
+    - {}
+    - {}
+    - {}
+    - {}
+    - {}
+  means:         [0.437, 0.487, 0.618, 0.774, 0.914]
+  sigma-stat-hi: [0.030, 0.022, 0.019, 0.013, 0.005]
+  sigma-stat-lo: [0.030, 0.022, 0.019, 0.013, 0.005]
+  sigma-sys:     [0.026, 0.017, 0.013 ,0.008 ,0.003]
+  correlations:
+    - [ 1.0, 0.0, 0.0, 0.0, 0.0]
+    - [ 0.0, 1.0, 0.0, 0.0, 0.0]
+    - [ 0.0, 0.0, 1.0, 0.0, 0.0]
+    - [ 0.0, 0.0, 0.0, 1.0, 0.0]
+    - [ 0.0, 0.0, 0.0, 0.0, 1.0]
+  dof: 5
+# }}}

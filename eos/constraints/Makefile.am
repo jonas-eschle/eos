@@ -2,6 +2,7 @@ CLEANFILES = *~
 MAINTAINERCLEANFILES = Makefile.in
 
 CONSTRAINTS_FILES = \
+	pi-to-pi-form-factors.yaml \
 	Bq-to-dilepton.yaml \
 	B-to-K-charmonium.yaml \
 	B-to-K-ll.yaml \
