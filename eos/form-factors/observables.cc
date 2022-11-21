@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et tw=150 foldmethod=marker : */
 
 /*
- * Copyright (c) 2019, 2020 Danny van Dyk
+ * Copyright (c) 2019-2022 Danny van Dyk
  *
  * This file is part of the EOS project. EOS is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -27,6 +27,7 @@
 #include <eos/form-factors/baryonic-impl.hh>
 #include <eos/form-factors/observables.hh>
 #include <eos/form-factors/parametric-abr2022.hh>
+#include <eos/form-factors/parametric-aegjkvd2023.hh>
 #include <eos/form-factors/parametric-bgjvd2019.hh>
 #include <eos/form-factors/parametric-bmrvd2022.hh>
 #include <eos/form-factors/unitarity-bounds.hh>
@@ -1598,6 +1599,40 @@ namespace eos
     }
     // }}}
 
+    // 0 -> PP
+    // {{{
+
+    // 0 -> pi pi
+    // {{{
+    ObservableGroup
+    make_vacuum_to_pipi_form_factors_group()
+    {
+        auto imp = new Implementation<ObservableGroup>{
+            R"(Form factors for $0 \to \pi \pi$ transitions)",
+            R"(Pseudo observables representing the full basis of $0 \to \pi \pi$ form factors. )"
+            R"(The specific parametrization can be chosen via the "form-factors" option.)",
+            {
+                make_form_factor_adapter("pi->pi::f_+(q2)", R"(f_+^{\pi \to \pi}(q^2))",
+                        &FormFactors<PToP>::f_p, std::make_tuple("q2")),
+
+                make_form_factor_adapter("0->pipi::Abs{f_+}^2(q2)", R"(|f_+^{0\to \pi\pi}(q^2)|^2)",
+                        &FormFactors<VacuumToPP>::abs2_f_p, std::make_tuple("q2")),
+
+                make_form_factor_adapter("0->pipi::Arg{f_+}(q2)", R"(\text{arg}(f_+^{\pi \to \pi}(q^2)))",
+                        &FormFactors<VacuumToPP>::arg_f_p, std::make_tuple("q2")),
+
+                make_observable("pi->pi::Bound[J^P=1^-,I=1]@AEGKJvD:2020", R"(B^{q\to q}_{1^-})",
+                        Unit::None(),
+                        &AEGJKvD2023UnitarityBounds::bound_1m_I1)
+            }
+        };
+
+        return ObservableGroup(imp);
+    }
+    // }}}
+
+    // }}}
+
     ObservableSection
     make_form_factors_section()
     {
@@ -1637,6 +1672,8 @@ namespace eos
 
                 // unitarity bounds
                 make_unitarity_bounds_group(),
+                // 0 -> PP
+                make_vacuum_to_pipi_form_factors_group(),
             }
         );
 

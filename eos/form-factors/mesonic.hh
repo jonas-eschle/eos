@@ -52,6 +52,11 @@ namespace eos
 
     struct VToV { };
 
+    /*
+     * vacuum -> P P transitions
+     */
+    struct VacuumToPP { };
+
     template <>
     class FormFactors<PToV> :
         public virtual ParameterUser
@@ -120,7 +125,7 @@ namespace eos
             virtual double f_m(const double & s) const;
 
             // Conventions of GvDV:2020 eq. (A.5)
-            virtual double f_plus_T(const double & s) const = 0;
+            virtual double f_plus_T(const double & s) const;
 
             virtual double f_p_d1(const double & s) const;
             virtual double f_p_d2(const double & s) const;
@@ -246,6 +251,36 @@ namespace eos
             static OptionSpecification option_specification(const qnp::Prefix & process);
     };
 
+    template <>
+    class FormFactors<VacuumToPP> :
+        public virtual ParameterUser
+    {
+        public:
+            virtual ~FormFactors();
+
+            // vector current
+            virtual complex<double> f_p(const double & q2) const = 0;
+            virtual double abs2_f_p(const double & q2) const;
+            virtual double arg_f_p(const double & q2) const;
+
+            virtual complex<double> f_0(const double & q2) const = 0;
+
+            // tensor current
+            virtual complex<double> f_t(const double & q2) const = 0;
+    };
+
+    template <>
+    class FormFactorFactory<VacuumToPP>
+    {
+        public:
+            using KeyType = QualifiedName;
+            using ValueType = std::function<FormFactors<VacuumToPP> * (const Parameters &, const Options &)>;
+
+            static const std::map<KeyType, ValueType> form_factors;
+
+            static std::shared_ptr<FormFactors<VacuumToPP>> create(const QualifiedName & label, const Parameters & parameters, const Options & options = Options{ });
+            static OptionSpecification option_specification(const qnp::Prefix & process);
+    };
 }
 
 

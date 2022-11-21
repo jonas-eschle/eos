@@ -27,6 +27,7 @@ libeosformfactors_la_SOURCES = \
 	mesonic-processes.hh \
 	observables.cc observables.hh \
 	parametric-abr2022.hh parametric-abr2022-impl.hh parametric-abr2022.cc \
+	parametric-aegjkvd2023.hh parametric-aegjkvd2023.cc \
 	parametric-bcl2008.hh parametric-bcl2008-impl.hh parametric-bcl2008.cc \
 	parametric-bgl1997.hh parametric-bgl1997-impl.hh parametric-bgl1997.cc \
 	parametric-bgjvd2019.hh parametric-bgjvd2019-impl.hh parametric-bgjvd2019.cc \
@@ -55,6 +56,7 @@ include_eos_rarebdecays_HEADERS = \
 	form-factors.hh \
 	observables.hh \
 	parametric-abr2022.hh \
+	parametric-aegjkvd2023.hh \
 	parametric-bcl2008.hh \
 	parametric-bgl1997.hh \
 	parametric-bgjvd2019.hh \
@@ -77,6 +79,7 @@ TESTS = \
 	kstar-lcdas_TEST \
 	lcda_TEST \
 	parametric-abr2022_TEST \
+	parametric-aegjkvd2023_TEST \
 	parametric-bcl2008_TEST \
 	parametric-bgl1997_TEST \
 	parametric-bgjvd2019_TEST \
@@ -117,6 +120,8 @@ kstar_lcdas_TEST_SOURCES = kstar-lcdas_TEST.cc
 lcda_TEST_SOURCES = lcda_TEST.cc
 
 parametric_abr2022_TEST_SOURCES = parametric-abr2022_TEST.cc
+
+parametric_aegjkvd2023_TEST_SOURCES = parametric-aegjkvd2023_TEST.cc
 
 parametric_bcl2008_TEST_SOURCES = parametric-bcl2008_TEST.cc
 

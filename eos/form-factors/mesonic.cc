@@ -24,6 +24,7 @@
 #include <eos/form-factors/analytic-b-to-pi-pi.hh>
 #include <eos/form-factors/analytic-b-to-p-lcsr.hh>
 #include <eos/form-factors/analytic-b-to-v-lcsr.hh>
+#include <eos/form-factors/parametric-aegjkvd2023.hh>
 #include <eos/form-factors/parametric-bcl2008.hh>
 #include <eos/form-factors/parametric-bgl1997.hh>
 #include <eos/form-factors/parametric-bgjvd2019.hh>
@@ -214,6 +215,12 @@ namespace eos
         return std::numeric_limits<double>::quiet_NaN();
     }
 
+    double FormFactors<PToP>::f_plus_T(const double & /*s*/) const
+    {
+        throw InternalError("Not yet implemented");
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+
     double FormFactors<PToP>::f_p_d1(const double & s) const
     {
         using namespace std::placeholders;
@@ -236,6 +243,8 @@ namespace eos
     FormFactorFactory<PToP>::form_factors
     {
         // parametrizations
+        // u,d -> u,d
+        { "pi->pi::AEGJKvD2023", &AEGJKvD2023FormFactors<PToP>::make              },
         // b -> s
         { "B->K::BCL2008",       &BCL2008FormFactors<BToK, 3u>::make              },
         { "B->K::KMPW2010",      &KMPW2010FormFactors<PToP>::make                 },
@@ -466,5 +475,56 @@ namespace eos
         }
 
         return result;
+    }
+
+    /* Vacuum -> P P Processes */
+
+    FormFactors<VacuumToPP>::~FormFactors()
+    {
+    }
+
+    double
+    FormFactors<VacuumToPP>::abs2_f_p(const double & q2) const
+    {
+        return std::norm(this->f_p(q2));
+    }
+
+    double
+    FormFactors<VacuumToPP>::arg_f_p(const double & q2) const
+    {
+        return std::arg(this->f_p(q2));
+    }
+
+    const std::map<FormFactorFactory<VacuumToPP>::KeyType, FormFactorFactory<VacuumToPP>::ValueType>
+    FormFactorFactory<VacuumToPP>::form_factors
+    {
+        { "0->pipi::AEGJKvD2023",     &AEGJKvD2023FormFactors<VacuumToPP>::make },
+    };
+
+    std::shared_ptr<FormFactors<VacuumToPP>>
+    FormFactorFactory<VacuumToPP>::create(const QualifiedName & name, const Parameters & parameters, const Options & options)
+    {
+        std::shared_ptr<FormFactors<VacuumToPP>> result;
+
+        auto i = FormFactorFactory<VacuumToPP>::form_factors.find(name);
+        if (FormFactorFactory<VacuumToPP>::form_factors.end() != i)
+        {
+            result.reset(i->second(parameters, name.options() + options));
+        }
+
+        return result;
+    }
+
+    OptionSpecification
+    FormFactorFactory<VacuumToPP>::option_specification(const qnp::Prefix & process)
+    {
+        OptionSpecification result { "form-factors", {}, "" };
+        for (const auto & ff : FormFactorFactory<VacuumToPP>::form_factors)
+        {
+            if (process == std::get<0>(ff).prefix_part())
+                result.allowed_values.push_back(std::get<0>(ff).name_part().str());
+        }
+
+        return { result };
     }
 }
