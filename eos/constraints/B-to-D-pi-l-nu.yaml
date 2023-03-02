@@ -10,15 +10,15 @@
 B^0->(Dpi)^+l^-nu::KinematicalDistribution[w]@Belle:2017A:
     type: MultivariateGaussian
     observables:
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
     kinematics:
         - { w_min: 1.0002, w_max: 1.05  }
         - { w_min: 1.05,   w_max: 1.10  }
@@ -53,36 +53,36 @@ B^0->(Dpi)^+l^-nu::KinematicalDistribution[w]@Belle:2017A:
 B^0->(Dpi)^+l^-nu::KinematicalDistribution[c_D,c_l,chi]@Belle:2017A:
     type: MultivariateGaussian
     observables:
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
     kinematics:
         - { c_D_min: -1.0, c_D_max: -0.8 }
         - { c_D_min: -0.8, c_D_max: -0.6 }
@@ -298,46 +298,46 @@ B^0->(Dpi)^+l^-nu::KinematicalDistribution[c_D,c_l,chi]@Belle:2017A:
 B^0->(Dpi)^+l^-nu::KinematicalDistribution[w,c_D,c_l,chi]@Belle:2017A:
     type: MultivariateGaussian
     observables:
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_D_min,c_D_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(c_l_min,c_l_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
-        - B->Dpilnu::P(chi_min,chi_max)
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_D_min,c_D_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(c_l_min,c_l_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
+        - 'B->Dpilnu::P(chi_min,chi_max)'
     kinematics:
         - { w_min:    1.0002, w_max:    1.05   }
         - { w_min:    1.05,   w_max:    1.10   }
@@ -573,15 +573,15 @@ B^0->(Dpi)^+l^-nu::KinematicalDistribution[w,c_D,c_l,chi]@Belle:2017A:
 B^0->(Dpi)^+l^-nu::KinematicalDistribution[w]@Belle:2018A:
     type: MultivariateGaussian
     observables:
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
-        - B->Dpilnu::P(w_min,w_max)
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
+        - 'B->Dpilnu::P(w_min,w_max)'
     kinematics:
         - { w_min: 1.0002, w_max: 1.05  }
         - { w_min: 1.05,   w_max: 1.10  }
@@ -624,16 +624,16 @@ B^0->(Dpi)^+l^-nu::KinematicalDistribution[w]@Belle:2018A:
 B^0->(Dpi)^+l^-nubar::KinematicDistributionsAngularObservables@BBGJvD:2021A:
    type: MultivariateGaussian(Covariance)
    observables:
-      [ "B->D^*lnu::BR",
-        "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)",
-        "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)",
-        "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)",
-        "B->D^*lnu::F_L", "B->D^*lnu::A_FB", "B->D^*lnu::Ftilde_L", "B->D^*lnu::S_3",
-        "B->D^*lnu::BR",
-        "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)",
-        "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)",
-        "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)", "B->D^*lnu::P(w_min,w_max)",
-        "B->D^*lnu::F_L", "B->D^*lnu::A_FB", "B->D^*lnu::Ftilde_L", "B->D^*lnu::S_3"]
+      [ 'B->D^*lnu::BR',
+        'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)',
+        'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)',
+        'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)',
+        'B->D^*lnu::F_L', 'B->D^*lnu::A_FB', 'B->D^*lnu::Ftilde_L', 'B->D^*lnu::S_3',
+        'B->D^*lnu::BR',
+        'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)',
+        'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)',
+        'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)', 'B->D^*lnu::P(w_min,w_max)',
+        'B->D^*lnu::F_L', 'B->D^*lnu::A_FB', 'B->D^*lnu::Ftilde_L', 'B->D^*lnu::S_3']
    options:
      [ {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e}, {l: e},
        {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}, {l: mu}]

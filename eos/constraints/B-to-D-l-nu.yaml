@@ -8,8 +8,8 @@
 B^0->D^+e^-nu::BRs@Belle:2015A:
     type: MultivariateGaussian(Covariance)
     observables:
-        [ B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,
-          B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR  ]
+        [ 'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',
+          'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR']
     options:
         [ { l: e, q: d }, { l: e, q: d }, { l: e, q: d }, { l: e, q: d }, { l: e, q: d },
           { l: e, q: d }, { l: e, q: d }, { l: e, q: d }, { l: e, q: d }, { l: e, q: d } ]
@@ -40,8 +40,8 @@ B^0->D^+e^-nu::BRs@Belle:2015A:
 B^0->D^+mu^-nu::BRs@Belle:2015A:
     type: MultivariateGaussian(Covariance)
     observables:
-        [ B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,
-          B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR,    B->Dlnu::BR  ]
+        [ 'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',
+          'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR',    'B->Dlnu::BR']
     options:
         [ { l: mu, q: d }, { l: mu, q: d }, { l: mu, q: d }, { l: mu, q: d }, { l: mu, q: d },
           { l: mu, q: d }, { l: mu, q: d }, { l: mu, q: d }, { l: mu, q: d }, { l: mu, q: d } ]
@@ -136,7 +136,7 @@ B^0->D^+l^-nu::KinematicalDistribution[w]@Belle:2015A:
 B->D^(*)lnu::R_D^(*)@HFLAV:2019A:
     type: MultivariateGaussian(Covariance)
     observables:
-        [ B->Dlnu::R_D, B->D^*lnu::R_D^*]
+        [ 'B->Dlnu::R_D', 'B->D^*lnu::R_D^*' ]
     options:
         [ {}, {} ]
     kinematics:

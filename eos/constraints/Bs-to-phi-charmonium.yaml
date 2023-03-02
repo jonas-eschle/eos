@@ -33,10 +33,10 @@ B_s->phipsi2S::BR@PDG:2020A:
 B_s->phiJpsi::PolarizationAmplitude@LHCb:2014D:
     type: MultivariateGaussian
     observables:
-        - B_s->phipsi::perp_polarization
-        - B_s->phipsi::long_polarization
-        - B_s->phipsi::delta_para_long
-        - B_s->phipsi::delta_perp_long
+        - 'B_s->phipsi::perp_polarization'
+        - 'B_s->phipsi::long_polarization'
+        - 'B_s->phipsi::delta_para_long'
+        - 'B_s->phipsi::delta_perp_long'
     kinematics:
         [ {}, {}, {}, {} ]
     options:
@@ -58,10 +58,10 @@ B_s->phiJpsi::PolarizationAmplitude@LHCb:2014D:
 B_s->phipsi2S::PolarizationAmplitude@LHCb:2016B:
     type: MultivariateGaussian
     observables:
-        - B_s->phipsi::perp_polarization
-        - B_s->phipsi::long_polarization
-        - B_s->phipsi::delta_para_long
-        - B_s->phipsi::delta_perp_long
+        - 'B_s->phipsi::perp_polarization'
+        - 'B_s->phipsi::long_polarization'
+        - 'B_s->phipsi::delta_para_long'
+        - 'B_s->phipsi::delta_perp_long'
     kinematics:
         [ {}, {}, {}, {} ]
     options:
@@ -83,10 +83,10 @@ B_s->phipsi2S::PolarizationAmplitude@LHCb:2016B:
 B_s->phiJpsi::PolarizationAmplitude@LHCb:2019A:
     type: MultivariateGaussian
     observables:
-        - B_s->phipsi::perp_polarization
-        - B_s->phipsi::long_polarization
-        - B_s->phipsi::delta_perp_long
-        - B_s->phipsi::delta_para_long
+        - 'B_s->phipsi::perp_polarization'
+        - 'B_s->phipsi::long_polarization'
+        - 'B_s->phipsi::delta_perp_long'
+        - 'B_s->phipsi::delta_para_long'
     kinematics:
         [ {}, {}, {}, {} ]
     options:
@@ -108,10 +108,10 @@ B_s->phiJpsi::PolarizationAmplitude@LHCb:2019A:
 B_s->phiJpsi::PolarizationAmplitude@LHCb:2021C:
     type: MultivariateGaussian
     observables:
-        - B_s->phipsi::perp_polarization
-        - B_s->phipsi::long_polarization
-        - B_s->phipsi::delta_para_long
-        - B_s->phipsi::delta_perp_long
+        - 'B_s->phipsi::perp_polarization'
+        - 'B_s->phipsi::long_polarization'
+        - 'B_s->phipsi::delta_para_long'
+        - 'B_s->phipsi::delta_perp_long'
     kinematics:
         [ {}, {}, {}, {} ]
     options:
@@ -137,10 +137,10 @@ B_s->phiJpsi::PolarizationAmplitude@LHCb:2021C:
 B_s->phiJpsi::PolarizationAmplitude@CMS:2020B:
     type: MultivariateGaussian
     observables:
-        - B_s->phipsi::perp_polarization
-        - B_s->phipsi::long_polarization
-        - B_s->phipsi::delta_para_long
-        - B_s->phipsi::delta_perp_long
+        - 'B_s->phipsi::perp_polarization'
+        - 'B_s->phipsi::long_polarization'
+        - 'B_s->phipsi::delta_para_long'
+        - 'B_s->phipsi::delta_perp_long'
     kinematics:
         [ {}, {}, {}, {} ]
     options:
@@ -167,10 +167,10 @@ B_s->phiJpsi::PolarizationAmplitude@CMS:2020B:
 B_s->phiJpsi::PolarizationAmplitude@ATLAS:2020A:
     type: MultivariateGaussian
     observables:
-        - B_s->phipsi::para_polarization
-        - B_s->phipsi::long_polarization
-        - B_s->phipsi::delta_perp_long
-        - B_s->phipsi::delta_para_long
+        - 'B_s->phipsi::para_polarization'
+        - 'B_s->phipsi::long_polarization'
+        - 'B_s->phipsi::delta_perp_long'
+        - 'B_s->phipsi::delta_para_long'
     kinematics:
         [ {}, {}, {}, {} ]
     options:

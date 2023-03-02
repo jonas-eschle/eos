@@ -7,8 +7,8 @@
 Lambda_b->Lambda::f_long^A@BFvD:2014A:
     type: MultivariateGaussian
     observables:
-      - Lambda_b->Lambda::f_long^A(q2)
-      - Lambda_b->Lambda::f_long^A(q2)
+      - 'Lambda_b->Lambda::f_long^A(q2)'
+      - 'Lambda_b->Lambda::f_long^A(q2)'
     kinematics:
       - {q2: 13.5}
       - {q2: 20.5}
@@ -25,10 +25,10 @@ Lambda_b->Lambda::f_long^A@BFvD:2014A:
 Lambda_b->Lambda::f_perp+long^V+A@BFvD:2014A:
     type: MultivariateGaussian
     observables:
-      - Lambda_b->Lambda::f_perp^V(q2)
-      - Lambda_b->Lambda::f_perp^A(q2)
-      - Lambda_b->Lambda::f_long^V(q2)
-      - Lambda_b->Lambda::f_long^A(q2)
+      - 'Lambda_b->Lambda::f_perp^V(q2)'
+      - 'Lambda_b->Lambda::f_perp^A(q2)'
+      - 'Lambda_b->Lambda::f_long^V(q2)'
+      - 'Lambda_b->Lambda::f_long^A(q2)'
     kinematics:
       - {q2: 0}
       - {q2: 0}
@@ -51,8 +51,8 @@ Lambda_b->Lambda::f_perp+long^V+A@BFvD:2014A:
 Lambda_b->Lambda::f_perp^A@BFvD:2014A:
     type: MultivariateGaussian
     observables:
-      - Lambda_b->Lambda::f_perp^A(q2)
-      - Lambda_b->Lambda::f_perp^A(q2)
+      - 'Lambda_b->Lambda::f_perp^A(q2)'
+      - 'Lambda_b->Lambda::f_perp^A(q2)'
     kinematics:
       - {q2: 13.5}
       - {q2: 20.5}
@@ -69,8 +69,8 @@ Lambda_b->Lambda::f_perp^A@BFvD:2014A:
 Lambda_b->Lambda::f_perp^V@BFvD:2014A:
     type: MultivariateGaussian
     observables:
-      - Lambda_b->Lambda::f_perp^V(q2)
-      - Lambda_b->Lambda::f_perp^V(q2)
+      - 'Lambda_b->Lambda::f_perp^V(q2)'
+      - 'Lambda_b->Lambda::f_perp^V(q2)'
     kinematics:
       - {q2: 13.5}
       - {q2: 20.5}
@@ -87,28 +87,28 @@ Lambda_b->Lambda::f_perp^V@BFvD:2014A:
 Lambda_b->Lambda::f_perp+long^V+A+T+T5@DM:2016A:
     type: MultivariateGaussian(Covariance)
     observables:
-      - Lambda_b->Lambda::a_0_long^V@DM2016
-      - Lambda_b->Lambda::a_1_long^V@DM2016
-      - Lambda_b->Lambda::a_2_long^V@DM2016
-      - Lambda_b->Lambda::a_0_perp^V@DM2016
-      - Lambda_b->Lambda::a_1_perp^V@DM2016
-      - Lambda_b->Lambda::a_2_perp^V@DM2016
-      - Lambda_b->Lambda::a_0_long^A@DM2016
-      - Lambda_b->Lambda::a_1_long^A@DM2016
-      - Lambda_b->Lambda::a_2_long^A@DM2016
-      - Lambda_b->Lambda::a_1_perp^A@DM2016
-      - Lambda_b->Lambda::a_2_perp^A@DM2016
-      - Lambda_b->Lambda::a_0_long^T@DM2016
-      - Lambda_b->Lambda::a_1_long^T@DM2016
-      - Lambda_b->Lambda::a_2_long^T@DM2016
-      - Lambda_b->Lambda::a_0_perp^T@DM2016
-      - Lambda_b->Lambda::a_1_perp^T@DM2016
-      - Lambda_b->Lambda::a_2_perp^T@DM2016
-      - Lambda_b->Lambda::a_0_long^T5@DM2016
-      - Lambda_b->Lambda::a_1_long^T5@DM2016
-      - Lambda_b->Lambda::a_2_long^T5@DM2016
-      - Lambda_b->Lambda::a_1_perp^T5@DM2016
-      - Lambda_b->Lambda::a_2_perp^T5@DM2016
+      - 'Lambda_b->Lambda::a_0_long^V@DM2016'
+      - 'Lambda_b->Lambda::a_1_long^V@DM2016'
+      - 'Lambda_b->Lambda::a_2_long^V@DM2016'
+      - 'Lambda_b->Lambda::a_0_perp^V@DM2016'
+      - 'Lambda_b->Lambda::a_1_perp^V@DM2016'
+      - 'Lambda_b->Lambda::a_2_perp^V@DM2016'
+      - 'Lambda_b->Lambda::a_0_long^A@DM2016'
+      - 'Lambda_b->Lambda::a_1_long^A@DM2016'
+      - 'Lambda_b->Lambda::a_2_long^A@DM2016'
+      - 'Lambda_b->Lambda::a_1_perp^A@DM2016'
+      - 'Lambda_b->Lambda::a_2_perp^A@DM2016'
+      - 'Lambda_b->Lambda::a_0_long^T@DM2016'
+      - 'Lambda_b->Lambda::a_1_long^T@DM2016'
+      - 'Lambda_b->Lambda::a_2_long^T@DM2016'
+      - 'Lambda_b->Lambda::a_0_perp^T@DM2016'
+      - 'Lambda_b->Lambda::a_1_perp^T@DM2016'
+      - 'Lambda_b->Lambda::a_2_perp^T@DM2016'
+      - 'Lambda_b->Lambda::a_0_long^T5@DM2016'
+      - 'Lambda_b->Lambda::a_1_long^T5@DM2016'
+      - 'Lambda_b->Lambda::a_2_long^T5@DM2016'
+      - 'Lambda_b->Lambda::a_1_perp^T5@DM2016'
+      - 'Lambda_b->Lambda::a_2_perp^T5@DM2016'
     kinematics:
         [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ]
     options:
@@ -301,8 +301,8 @@ Lambda_b->Lambda::f_time+long+perp^V+A+T+T5[nominal,no-prior]@DM:2016A:
 Lambda_b->Lambda::f_long^V@BFvD:2014A:
     type: MultivariateGaussian
     observables:
-      - Lambda_b->Lambda::f_long^V(q2)
-      - Lambda_b->Lambda::f_long^V(q2)
+      - 'Lambda_b->Lambda::f_long^V(q2)'
+      - 'Lambda_b->Lambda::f_long^V(q2)'
     kinematics:
       - {q2: 13.5}
       - {q2: 20.5}
@@ -319,24 +319,24 @@ Lambda_b->Lambda::f_long^V@BFvD:2014A:
 Lambda_b->Lambda_c::f_perp+long+time^V+A+T+T5@DKMR:2017A:
     type: MultivariateGaussian(Covariance)
     observables:
-      - Lambda_b->Lambda_c::a_0_long^V@DKMR2017
-      - Lambda_b->Lambda_c::a_1_long^V@DKMR2017
-      - Lambda_b->Lambda_c::a_0_time^V@DKMR2017
-      - Lambda_b->Lambda_c::a_1_time^V@DKMR2017
-      - Lambda_b->Lambda_c::a_0_perp^V@DKMR2017
-      - Lambda_b->Lambda_c::a_1_perp^V@DKMR2017
-      - Lambda_b->Lambda_c::a_0_long^A@DKMR2017
-      - Lambda_b->Lambda_c::a_1_long^A@DKMR2017
-      - Lambda_b->Lambda_c::a_0_time^A@DKMR2017
-      - Lambda_b->Lambda_c::a_1_time^A@DKMR2017
-      - Lambda_b->Lambda_c::a_1_perp^A@DKMR2017
-      - Lambda_b->Lambda_c::a_0_long^T@DKMR2017
-      - Lambda_b->Lambda_c::a_1_long^T@DKMR2017
-      - Lambda_b->Lambda_c::a_0_perp^T@DKMR2017
-      - Lambda_b->Lambda_c::a_1_perp^T@DKMR2017
-      - Lambda_b->Lambda_c::a_0_long^T5@DKMR2017
-      - Lambda_b->Lambda_c::a_1_long^T5@DKMR2017
-      - Lambda_b->Lambda_c::a_1_perp^T5@DKMR2017
+      - 'Lambda_b->Lambda_c::a_0_long^V@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_long^V@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_time^V@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_time^V@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_perp^V@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_perp^V@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_long^A@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_long^A@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_time^A@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_time^A@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_perp^A@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_long^T@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_long^T@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_perp^T@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_perp^T@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_0_long^T5@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_long^T5@DKMR2017'
+      - 'Lambda_b->Lambda_c::a_1_perp^T5@DKMR2017'
     kinematics:
         [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ]
     options:
@@ -376,13 +376,13 @@ Lambda_b->Lambda(1520)::FormFactors[f,g,h,htilde]@MR:2021A:
     type: MultivariateGaussian(Covariance)
     dim: 21
     observables:
-        [ Lambda_b->Lambda(1520)::f_long12^V(q2),  Lambda_b->Lambda(1520)::f_time12^V(q2),  Lambda_b->Lambda(1520)::f_time12^V(q2),
-          Lambda_b->Lambda(1520)::f_perp12^V(q2),  Lambda_b->Lambda(1520)::f_perp32^V(q2),  Lambda_b->Lambda(1520)::f_perp32^V(q2),
-          Lambda_b->Lambda(1520)::f_long12^A(q2),  Lambda_b->Lambda(1520)::f_time12^A(q2),  Lambda_b->Lambda(1520)::f_perp12^A(q2),
-          Lambda_b->Lambda(1520)::f_perp12^A(q2),  Lambda_b->Lambda(1520)::f_perp32^A(q2),  Lambda_b->Lambda(1520)::f_perp32^A(q2),
-          Lambda_b->Lambda(1520)::f_long12^T(q2),  Lambda_b->Lambda(1520)::f_perp12^T(q2),  Lambda_b->Lambda(1520)::f_perp32^T(q2),
-          Lambda_b->Lambda(1520)::f_perp32^T(q2),  Lambda_b->Lambda(1520)::f_long12^T5(q2), Lambda_b->Lambda(1520)::f_perp12^T5(q2),
-          Lambda_b->Lambda(1520)::f_perp12^T5(q2), Lambda_b->Lambda(1520)::f_perp32^T5(q2), Lambda_b->Lambda(1520)::f_perp32^T5(q2) ]
+        [ 'Lambda_b->Lambda(1520)::f_long12^V(q2)',  'Lambda_b->Lambda(1520)::f_time12^V(q2)',  'Lambda_b->Lambda(1520)::f_time12^V(q2)',
+          'Lambda_b->Lambda(1520)::f_perp12^V(q2)',  'Lambda_b->Lambda(1520)::f_perp32^V(q2)',  'Lambda_b->Lambda(1520)::f_perp32^V(q2)',
+          'Lambda_b->Lambda(1520)::f_long12^A(q2)',  'Lambda_b->Lambda(1520)::f_time12^A(q2)',  'Lambda_b->Lambda(1520)::f_perp12^A(q2)',
+          'Lambda_b->Lambda(1520)::f_perp12^A(q2)',  'Lambda_b->Lambda(1520)::f_perp32^A(q2)',  'Lambda_b->Lambda(1520)::f_perp32^A(q2)',
+          'Lambda_b->Lambda(1520)::f_long12^T(q2)',  'Lambda_b->Lambda(1520)::f_perp12^T(q2)',  'Lambda_b->Lambda(1520)::f_perp32^T(q2)',
+          'Lambda_b->Lambda(1520)::f_perp32^T(q2)',  'Lambda_b->Lambda(1520)::f_long12^T5(q2)', 'Lambda_b->Lambda(1520)::f_perp12^T5(q2)',
+          'Lambda_b->Lambda(1520)::f_perp12^T5(q2)', 'Lambda_b->Lambda(1520)::f_perp32^T5(q2)', 'Lambda_b->Lambda(1520)::f_perp32^T5(q2)' ]
     kinematics:
         [ {q2: 16.5537}, {q2: 16.5537}, {q2: 16.2975}, {q2: 16.5537}, {q2: 16.5537}, {q2: 16.2975}, {q2: 16.5537},
           {q2: 16.5537}, {q2: 16.5537}, {q2: 16.2975}, {q2: 16.5537}, {q2: 16.2975}, {q2: 16.5537}, {q2: 16.5537},
