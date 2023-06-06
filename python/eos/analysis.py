@@ -628,8 +628,23 @@ class Analysis:
            This method requires the dynesty python module, which can be installed from PyPI.
         """
         import dynesty
+        from dynesty.dynamicsampler import stopping_function, weight_function
         sampler = dynesty.DynamicNestedSampler(self.log_likelihood, self._prior_transform, len(self.varied_parameters), bound=bound, nlive=nlive, rstate = np.random.Generator(np.random.MT19937(seed)))
-        sampler.run_nested(dlogz_init=dlogz, maxiter=maxiter, print_progress=print_progress)
+        #sampler.run_nested(dlogz_init=dlogz, maxiter=maxiter)
+
+        for results in sampler.sample_initial(dlogz=dlogz, maxiter=maxiter):
+            pass
+
+        while True:
+            stop = stopping_function(sampler.results)  # evaluate stop
+            if not stop:
+                logl_bounds = weight_function(sampler.results)  # derive bounds
+                for results in sampler.sample_batch(logl_bounds=logl_bounds, dlogz=dlogz, maxiter=maxiter):
+                    pass
+                sampler.combine_runs()  # add new samples to previous results
+            else:
+                break
+
         return sampler.results
 
 
