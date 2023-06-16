@@ -96,6 +96,7 @@ namespace eos
 
         // hadronic parameters
         UsedParameter MB;
+        UsedParameter fB; // Added by Carolina for cross checks
         UsedParameter mP;
         UsedParameter fP;
 
@@ -117,6 +118,7 @@ namespace eos
             lcdas(PseudoscalarLCDAs::make("pi", p, o)),
             prefix("B->pi"),
             MB(p["mass::B_u"], u),
+            fB(p["decay-constant::B_u"], u),// Added by Carolina for cross checks
             mP(p["mass::pi^0"], u),
             fP(p["decay-constant::pi"], u),
             m02(p["QCD::m_0^2"], u),
@@ -195,6 +197,7 @@ namespace eos
 
         // hadronic parameters
         UsedParameter MB;
+        UsedParameter fB; // Added by Carolina for cross checks
         UsedParameter mP;
         UsedParameter fP;
 
@@ -217,6 +220,7 @@ namespace eos
             lcdas(PseudoscalarLCDAs::make("K", p, o)),
             prefix("B_s->K"),
             MB(p["mass::B_s"], u),
+            fB(p["decay-constant::B_s"], u), // Added by Carolina for cross checks
             mP(p["mass::K_u"], u),
             fP(p["decay-constant::K_u"], u),
             m02(p["QCD::m_0^2"], u),
@@ -299,6 +303,7 @@ namespace eos
         using DKMMO2008Base<q1_, q2_, qs_>::lcdas;
         using DKMMO2008Base<q1_, q2_, qs_>::prefix;
         using DKMMO2008Base<q1_, q2_, qs_>::MB;
+        using DKMMO2008Base<q1_, q2_, qs_>::fB;// Added by Carolina for cross checks
         using DKMMO2008Base<q1_, q2_, qs_>::mP;
         using DKMMO2008Base<q1_, q2_, qs_>::fP;
         using DKMMO2008Base<q1_, q2_, qs_>::Mprime2;
@@ -407,7 +412,8 @@ namespace eos
                 )
             );
 
-            return std::sqrt(result);
+            //return std::sqrt(result);
+            return fB; // Added by Carolina for cross checks
         }
 
         double MB_svz() const
