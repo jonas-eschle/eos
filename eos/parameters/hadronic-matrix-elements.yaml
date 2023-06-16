@@ -597,6 +597,22 @@ groups:
           max:      0.0
           latex:    '$\alpha_{T,2}^{B_s \to K,\mathrm{BSZ2015}}$'
           unit:     '1'
+      # form factor parameters for B_s->K for [BFW:2010A] parametrization, copied from B->K
+      'B_s->K::a^%1%_%2%@BFW2010' :
+          central:  0.
+          min:     -1.0
+          max:     +1.0
+          unit:     '1'
+          latex:    '$a_%2%^{%1%,B_s \to K,\mathrm{BFW2010}}$'
+          matrix:
+            - ["f+", "f0", "fT"]
+            - [0, 1, 2, 3, 4]
+      'B_s->K::t0@BFW2010' :
+          central:  14.7
+          min:      14.7
+          max:      14.7
+          latex:   '$t_0^{B_s\to K}$'
+          unit:     'GeV'
       # form factor parameters for B->D from [BIvD2016] for [BCL:2008A] parametrization
       'B->D::f_+(0)@BCL2008' :
           central: +0.66
