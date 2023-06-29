@@ -613,6 +613,13 @@ groups:
           max:      14.7
           latex:   '$t_0^{B_s\to K}$'
           unit:     'GeV'
+      'B_s->K::tp@BFW2010' :
+          central:  34.346398
+          min:      34.346398
+          max:      34.346398
+          latex:    '$t_+^{B_s\to K^*}$'
+          comment:  '(mBs + mK)^2'
+          unit:     'GeV'
       # form factor parameters for B->D from [BIvD2016] for [BCL:2008A] parametrization
       'B->D::f_+(0)@BCL2008' :
           central: +0.66
