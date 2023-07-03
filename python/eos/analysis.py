@@ -607,7 +607,7 @@ class Analysis:
         return self._u_to_par(u)
 
 
-    def sample_nested(self, bound='multi', nlive=250, dlogz=1.0, maxiter=None, seed=10, print_progress=True, save_intermediate=False, base_directory='./', posterior=None):
+    def sample_nested(self, bound='multi', nlive=250, dlogz=1.0, maxiter=None, seed=10, print_progress=True, save_intermediate=False):
         """
         Return samples of the parameters.
 
@@ -625,15 +625,11 @@ class Analysis:
         :type seed: {None, int, array_like[ints], SeedSequence}, optional
         :param save_intermediate: If set to True, the intemediate dynesty sampler results are stored in each loop iteration
         :type save_intermediate: bool, optional
-        :param posterior: The name of the posterior PDF from which the samples are drown
-        :type posterior: str, optional
-        :param base_directory: The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.
-        :type base_directory: str, optional
+
         .. note::
            This method requires the dynesty python module, which can be installed from PyPI.
         """
         import dynesty
-        import os
         from dynesty.dynamicsampler import stopping_function, weight_function
         sampler = dynesty.DynamicNestedSampler(self.log_likelihood, self._prior_transform, len(self.varied_parameters), bound=bound, nlive=nlive, rstate = np.random.Generator(np.random.MT19937(seed)))
         #sampler.run_nested(dlogz_init=dlogz, maxiter=maxiter)
@@ -643,7 +639,7 @@ class Analysis:
 
         while True:
             if save_intermediate:
-                eos.data.DynestyResults.create(os.path.join(base_directory, posterior, 'intermediate_dynesty_results'), self.varied_parameters, sampler.results)
+                yield sampler.results
             stop = stopping_function(sampler.results)  # evaluate stop
             if not stop:
                 logl_bounds = weight_function(sampler.results)  # derive bounds
@@ -653,7 +649,7 @@ class Analysis:
             else:
                 break
 
-        return sampler.results
+        yield sampler.results
 
 
     def _repr_html_(self):
