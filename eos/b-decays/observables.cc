@@ -375,7 +375,19 @@ namespace eos
                         Unit::None(),
                         &BToPseudoscalarLeptonNeutrino::integrated_branching_ratio,
                         std::make_tuple("q2_min", "q2_max"),
-                        Options{ { "U", "u" }, {"q", "s"}, { "I", "1/2" } })
+                        Options{ { "U", "u" }, {"q", "s"}, { "I", "1/2" } }),
+
+                make_observable("B_s->Klnu::normdBR/ds",
+                        Unit::InverseGeV2(),
+                        &BToPseudoscalarLeptonNeutrino::normalized_differential_branching_ratio,
+                        std::make_tuple("q2"),
+                        Options{ { "U", "u" }, {"q", "s"}, { "I", "1/2" } }),
+
+                make_observable("B_s->Klnu::normBR",
+                        Unit::None(),
+                        &BToPseudoscalarLeptonNeutrino::normalized_integrated_branching_ratio,
+                        std::make_tuple("q2_min", "q2_max"),
+                        Options{ { "U", "u" }, {"q", "s"}, { "I", "1/2" } }),
             }
         );
 
