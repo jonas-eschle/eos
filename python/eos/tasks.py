@@ -483,9 +483,7 @@ def sample_nested(analysis_file:str, posterior:str, base_directory:str='./', bou
     :type seed: int, optional
     """
     analysis = analysis_file.analysis(posterior)
-    iter=0
-    for results in analysis.sample_nested(bound=bound, nlive=nlive, dlogz=dlogz, maxiter=maxiter, seed=seed):
-        iter+=1
+    for iter, results in enumerate(analysis.sample_nested(bound=bound, nlive=nlive, dlogz=dlogz, maxiter=maxiter, seed=seed)):
         samples = results.samples
         posterior_values = results.logwt - results.logz[-1]
         weights = _np.exp(posterior_values)

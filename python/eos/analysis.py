@@ -607,7 +607,7 @@ class Analysis:
         return self._u_to_par(u)
 
 
-    def sample_nested(self, bound='multi', nlive=250, dlogz=1.0, maxiter=None, seed=10, print_progress=True, save_intermediate=False):
+    def sample_nested(self, bound='multi', nlive=250, dlogz=1.0, maxiter=None, seed=10, save_intermediate=True, checkpoint_interval=10):
         """
         Return samples of the parameters.
 
@@ -625,20 +625,26 @@ class Analysis:
         :type seed: {None, int, array_like[ints], SeedSequence}, optional
         :param save_intermediate: If set to True, the intemediate dynesty sampler results are stored in each loop iteration
         :type save_intermediate: bool, optional
+        :param checkpoint_interval: The number of loop iterations between the checkpoints at which the results of the sampler will be strored.
+        :type checkpoint_interval: str, optional
 
         .. note::
            This method requires the dynesty python module, which can be installed from PyPI.
         """
         import dynesty
+        import itertools
         from dynesty.dynamicsampler import stopping_function, weight_function
         sampler = dynesty.DynamicNestedSampler(self.log_likelihood, self._prior_transform, len(self.varied_parameters), bound=bound, nlive=nlive, rstate = np.random.Generator(np.random.MT19937(seed)))
         #sampler.run_nested(dlogz_init=dlogz, maxiter=maxiter)
 
+        eos.info('Drawing initial samples.')
         for results in sampler.sample_initial(dlogz=dlogz, maxiter=maxiter):
             pass
 
-        while True:
-            if save_intermediate:
+        eos.info('Starting nested sampling loop.')
+        for iter in itertools.count():
+            if save_intermediate and iter % checkpoint_interval == 0:
+                eos.info(f'Sampler results stored after {iter} loop iterations.')
                 yield sampler.results
             stop = stopping_function(sampler.results)  # evaluate stop
             if not stop:
@@ -650,6 +656,7 @@ class Analysis:
                 break
 
         yield sampler.results
+        return
 
 
     def _repr_html_(self):
