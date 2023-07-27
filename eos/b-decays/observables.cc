@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et tw=150 foldmethod=marker : */
 
 /*
- * Copyright (c) 2019-2021 Danny van Dyk
+ * Copyright (c) 2019-2023 Danny van Dyk
  * Copyright (c) 2022 Philip Lüghausen
  *
  * This file is part of the EOS project. EOS is free software;
@@ -30,6 +30,7 @@
 #include <eos/b-decays/b-to-vec-l-nu-impl.hh>
 #include <eos/b-decays/b-to-vec-nu-nu.hh>
 #include <eos/b-decays/bs-to-kstar-l-nu.hh>
+#include <eos/b-decays/bq-to-dq-psd.hh>
 #include <eos/b-decays/lambdab-to-lambdac-l-nu.hh>
 #include <eos/b-decays/lambdab-to-lambdac2595-l-nu.hh>
 #include <eos/b-decays/lambdab-to-lambdac2625-l-nu.hh>
@@ -2120,6 +2121,27 @@ namespace eos
     }
     // }}}
 
+    // Class-I nonleptonic heavy-to-heavy
+    // {{{
+    ObservableGroup
+    make_classI_nonleptonic_heavy_to_heavy_group()
+    {
+        auto imp = new Implementation<ObservableGroup>(
+            R"(Class-I Nonleptonic Heavy-to-Heavy Decays)",
+            R"()",
+            {
+                /* B Meson Properties */
+                make_observable("B_s^0->D_s^+pi^-::BR", R"(\mathcal{B}(\bar{B}_s^0\to D_s^+\pi^-))",
+                        Unit::None(),
+                        &BqToDqPseudoscalar::branching_ratio,
+                        std::make_tuple(),
+                        { { "q", "s"} }),
+            }
+        );
+
+        return ObservableGroup(imp);
+    }
+    // }}}
     ObservableSection
     make_b_decays_section()
     {
@@ -2166,6 +2188,9 @@ namespace eos
 
                 // B -> X_u l^- nubar
                 make_b_to_xu_semileptonic_group(),
+
+                // class I nonleptonic heavy-to-heavy decays
+                make_classI_nonleptonic_heavy_to_heavy_group(),
             }
         );
 

@@ -19,6 +19,7 @@ libeosbdecays_la_SOURCES = \
 	b-to-vec-l-nu.cc b-to-vec-l-nu.hh b-to-vec-l-nu-impl.hh \
 	b-to-vec-nu-nu.cc b-to-vec-nu-nu.hh \
 	bs-to-kstar-l-nu.cc bs-to-kstar-l-nu.hh \
+	bq-to-dq-psd.cc bq-to-dq-psd.hh \
 	lambdab-to-lambdac-l-nu.cc lambdab-to-lambdac-l-nu.hh \
 	lambdab-to-lambdac2595-l-nu.cc lambdab-to-lambdac2595-l-nu.hh \
 	lambdab-to-lambdac2625-l-nu.cc lambdab-to-lambdac2625-l-nu.hh \
