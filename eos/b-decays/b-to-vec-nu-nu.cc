@@ -172,7 +172,11 @@ namespace eos
         {
             const double m_B = this->m_B(), m_B2 = m_B * m_B;
             const double m_V = this->m_V(), m_V2 = m_V * m_V;
-            const double lambda = eos::lambda(m_B2, m_V2, q2), sqrt_lambda = std::sqrt(lambda);
+            const double lambda = eos::lambda(m_B2, m_V2, q2);
+            if (lambda < 0)
+                return 0.0;
+
+            const double sqrt_lambda = std::sqrt(lambda);
 
             const auto wc = this->wc();
 
