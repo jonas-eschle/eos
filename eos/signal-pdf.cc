@@ -26,6 +26,7 @@
 #include <eos/b-decays/b-to-pi-l-x-nu.hh>
 #include <eos/b-decays/b-to-pi-pi-l-nu.hh>
 #include <eos/b-decays/b-to-vec-l-nu.hh>
+#include <eos/b-decays/b-to-vec-nu-nu.hh>
 #include <eos/b-decays/b-to-3l-nu.hh>
 #include <eos/b-decays/bs-to-kstar-l-nu.hh>
 #include <eos/b-decays/lambdab-to-lambdac-l-nu.hh>
@@ -393,6 +394,19 @@ namespace eos
                     std::make_tuple(
                         "s_min",
                         "s_max"
+                    )
+                ),
+
+            make_signal_pdf("B^+->K^*+nunubar::dGamma/dq2",
+                    Options{ { "D", "s" }, { "q", "u" }, { "I", "1/2" } },
+                    &BToVectorDineutrino::differential_branching_ratio,
+                    std::make_tuple(
+                        KinematicRange{ "q2",  0.0, 19.25, BToVectorDineutrino::kinematics_description_q2 }
+                    ),
+                    &BToVectorDineutrino::integrated_branching_ratio,
+                    std::make_tuple(
+                        "q2_min",
+                        "q2_max"
                     )
                 ),
 
