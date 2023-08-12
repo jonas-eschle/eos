@@ -36,7 +36,7 @@ class PlotterObservableVariableTests(unittest.TestCase):
         try:
             eos.plot.Plotter(cls.plot_args_prototype).plot()
         except Exception as e:
-            msg = "Plotting fails: " + repr(e)
+            msg = f"Plotting fails: {repr(e)}"
             raise unittest.SkipTest(msg)
 
 

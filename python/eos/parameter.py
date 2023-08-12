@@ -49,16 +49,13 @@ class Parameters(_Parameters):
 
     def filter_entry(self, qn):
         qn = QualifiedName(str(qn))
-        if self.prefix and not self.prefix in str(qn.prefix_part()):
+        if self.prefix and self.prefix not in str(qn.prefix_part()):
             return False
 
-        if self.name and not self.name in str(qn.name_part()):
+        if self.name and self.name not in str(qn.name_part()):
             return False
 
-        if self.suffix and not self.suffix in str(qn.suffix_part()):
-            return False
-
-        return True
+        return not self.suffix or self.suffix in str(qn.suffix_part())
 
     @staticmethod
     def _key(p):
@@ -107,7 +104,7 @@ class Parameters(_Parameters):
                 group_result = fr'''
                     <tr><th style="text-align:left" colspan=4>{group.name()}</th></tr>
                     <tr><td style="text-align:left" colspan=4>{group.description()}</td></tr>'''
-                group_parameters = [p for p in group]
+                group_parameters = list(group)
                 group_parameters.sort(key = Parameters._key)
                 for parameter in group_parameters:
                     qn = parameter.name()
@@ -115,7 +112,7 @@ class Parameters(_Parameters):
                         continue
 
                     latex = self._latex_refine(parameter.latex())
-                    if 0 == len(latex):
+                    if len(latex) == 0:
                         latex = '---'
 
                     unit = parameter.unit()
@@ -161,25 +158,18 @@ class Parameters(_Parameters):
 
         parameters = []
         if names is None:
-            parameters = [p for p in self]
+            parameters = list(self)
         else:
-            for p in self:
-                if p.name() not in names:
-                    continue
-
-                parameters.append(p)
-
-        contents = {}
-        for p in parameters:
-            contents.update({
-                p.name(): {
-                    'central': p.evaluate(),
-                    'min':     p.min(),
-                    'max':     p.max(),
-                    'latex':   p.latex()
-                }
-            })
-
+            parameters.extend(p for p in self if p.name() in names)
+        contents = {
+            p.name(): {
+                'central': p.evaluate(),
+                'min': p.min(),
+                'max': p.max(),
+                'latex': p.latex(),
+            }
+            for p in parameters
+        }
         return yaml.dump(contents)
 
 
@@ -229,9 +219,11 @@ class Parameters(_Parameters):
             # Add values provided by WCxf to EOS central (SM) values
             if (prefix == 'b->s') and (coeff in real_coeffs):
                 if (abs(value.imag) > 1.0e-10):
-                    raise ValueError('imaginary part of WC {} larger than 10^-10 threshold, which is not supported at present'.format(name))
+                    raise ValueError(
+                        f'imaginary part of WC {name} larger than 10^-10 threshold, which is not supported at present'
+                    )
 
-                p = parameters[str(prefix) + '::' + str(coeff)]
+                p = parameters[f'{str(prefix)}::{str(coeff)}']
                 p.set(p.central() + value.real)
             else:
                 pr = parameters[str(prefix) + '::Re{' + str(coeff) + '}']

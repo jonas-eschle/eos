@@ -60,7 +60,7 @@ def task(name, output, mode=lambda **kwargs: 'w'):
             _args.update(zip(func.__code__.co_varnames, args))
             _args.update(kwargs)
             if 'analysis_file' in _args and type(_args['analysis_file']) is str:
-                _args.update({ 'analysis_file': eos.AnalysisFile(_args['analysis_file'])})
+                _args['analysis_file'] = eos.AnalysisFile(_args['analysis_file'])
             # create output directory
             outputpath = ('{base_directory}/' + output).format(**_args)
             os.makedirs(outputpath, exist_ok=True)
@@ -82,8 +82,10 @@ def task(name, output, mode=lambda **kwargs: 'w'):
                     if iaccordion:
                         iaccordion.selected_index = None
                     return result
+
         _tasks[name] = task_wrapper
         return task_wrapper
+
     return _task
 
 
@@ -119,16 +121,16 @@ def find_mode(analysis_file:str, posterior:str, base_directory:str='./', optimiz
     if optimizations < 1:
         raise ValueError('The number of optimizations should be larger than zero.')
 
-    if not seed is None and not start_point is None:
+    if seed is not None and start_point is not None:
         raise ValueError('The arguments seed and start_point are mutually exclusive')
 
-    if not seed is None and not chain is None:
+    if seed is not None and chain is not None:
         raise ValueError('The arguments seed and chain are mutually exclusive')
 
-    if not chain is None and not start_point is None:
+    if chain is not None and start_point is not None:
         raise ValueError('The arguments chain and start_point are mutually exclusive')
 
-    if not importance_samples is None and not start_point is None:
+    if importance_samples is not None and start_point is not None:
         raise ValueError('The arguments importance_samples and start_point are mutually exclusive')
 
     analysis = analysis_file.analysis(posterior)
@@ -138,14 +140,12 @@ def find_mode(analysis_file:str, posterior:str, base_directory:str='./', optimiz
 
     eos.info(f'Starting minimization in {optimizations} points')
 
-    if not start_point is None:
+    if start_point is not None:
         _start_point = _np.array(start_point)
         eos.info('Starting optimization from user-provided point')
 
         _bfp = analysis.optimize(start_point=_start_point)
-        _gof = eos.GoodnessOfFit(analysis._log_posterior)
-        _chi2 = _gof.total_chi_square()
-    elif not chain is None:
+    elif chain is not None:
         eos.info('Initializing starting point from MCMC data file')
         _chain = eos.data.MarkovChain(os.path.join(base_directory, posterior, f'mcmc-{chain:04}'))
         idx_mode = _np.argmax(_chain.weights)
@@ -153,8 +153,6 @@ def find_mode(analysis_file:str, posterior:str, base_directory:str='./', optimiz
             p.set(v)
 
         _bfp = analysis.optimize()
-        _gof = eos.GoodnessOfFit(analysis._log_posterior)
-        _chi2 = _gof.total_chi_square()
     elif importance_samples:
         eos.info('Initializing starting point from importance samples')
         _file = eos.data.ImportanceSamples(os.path.join(base_directory, posterior, 'samples'))
@@ -165,17 +163,14 @@ def find_mode(analysis_file:str, posterior:str, base_directory:str='./', optimiz
             p.set(v)
 
         _bfp = analysis.optimize()
-        _gof = eos.GoodnessOfFit(analysis._log_posterior)
-        _chi2 = _gof.total_chi_square()
     else:
         eos.info('Starting optimization from a random point')
         if seed is None:
             seed = 17
         _bfp = analysis.optimize(start_point='random', rng=_np.random.mtrand.RandomState(seed))
-        _gof = eos.GoodnessOfFit(analysis._log_posterior)
-        _chi2 = _gof.total_chi_square()
-
-    for i in range(optimizations - 1):
+    _gof = eos.GoodnessOfFit(analysis._log_posterior)
+    _chi2 = _gof.total_chi_square()
+    for _ in range(optimizations - 1):
         starting_point = [float(p) for p in analysis.varied_parameters]
         _bfp = analysis.optimize(start_point = starting_point)
         _gof = eos.GoodnessOfFit(analysis._log_posterior)
@@ -185,7 +180,7 @@ def find_mode(analysis_file:str, posterior:str, base_directory:str='./', optimiz
             bfp = _bfp
             min_chi2 = _chi2
 
-    eos.info(f'Minimization finished, best point is:')
+    eos.info('Minimization finished, best point is:')
     for p, v in zip(analysis.varied_parameters, _bfp.point):
         eos.info(f'  - {p.name()} -> {v}')
     eos.info(f'total chi^2 = {min_chi2:.2f}')
@@ -234,7 +229,7 @@ def sample_mcmc(analysis_file:str, posterior:str, chain:int, base_directory:str=
     """
 
     analysis = analysis_file.analysis(posterior)
-    rng = _np.random.mtrand.RandomState(int(chain) + 1701)
+    rng = _np.random.mtrand.RandomState(chain + 1701)
     try:
         samples, usamples, weights = analysis.sample(N=N, stride=stride, pre_N=pre_N, preruns=preruns, rng=rng, cov_scale=cov_scale, start_point=start_point, return_uspace=True)
         eos.data.MarkovChain.create(os.path.join(base_directory, posterior, f'mcmc-{chain:04}'), analysis.varied_parameters, samples, usamples, weights)
@@ -273,7 +268,9 @@ def find_clusters(posterior:str, base_directory:str='./', threshold:float=2.0, K
     groups = pypmc.mix_adapt.r_value.r_group([_np.mean(chain.T, axis=1) for chain in chains],
                            [_np.var (chain.T, axis=1, ddof=1) for chain in chains],
                            n, threshold)
-    eos.info('Found {} groups using an R value threshold of {}'.format(len(groups), threshold))
+    eos.info(
+        f'Found {len(groups)} groups using an R value threshold of {threshold}'
+    )
     density   = pypmc.mix_adapt.r_value.make_r_gaussmix(chains, K_g=K_g, critical_r=threshold)
     eos.info(f'Created mixture density with {len(density.components)} components')
     eos.data.MixtureDensity.create(os.path.join(base_directory, posterior, 'clusters'), density)
@@ -358,7 +355,9 @@ def sample_pmc(analysis_file:str, posterior:str, base_directory:str='./', step_N
     elif initial_proposal == 'product':
         initial_density = eos.data.MixtureDensity(os.path.join(base_directory, posterior, 'product')).density()
     else:
-        eos.error("Could not initialize proposal in sample_pmc: argument {} is not supported.".format(initial_proposal))
+        eos.error(
+            f"Could not initialize proposal in sample_pmc: argument {initial_proposal} is not supported."
+        )
 
     samples, weights, posterior_values, proposal = analysis.sample_pmc(initial_density, step_N=step_N, steps=steps, final_N=final_N,
                                                      rng=rng, final_perplexity_threshold=perplexity_threshold,
@@ -423,7 +422,7 @@ def predict_observables(analysis_file:str, posterior:str, prediction:str, base_d
             observable_samples.append([_np.nan for _ in observable_ids])
     observable_samples = _np.array(observable_samples)
 
-    output_path = os.path.join(base_directory, posterior, 'pred-{}'.format(prediction))
+    output_path = os.path.join(base_directory, posterior, f'pred-{prediction}')
     eos.data.Prediction.create(output_path, observables, observable_samples, data.weights[begin:end])
 
 

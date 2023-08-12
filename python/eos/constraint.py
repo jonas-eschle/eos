@@ -25,16 +25,13 @@ class Constraints(_Constraints):
         self.suffix=suffix
 
     def filter_entry(self, qn):
-        if self.prefix and not self.prefix in str(qn.prefix_part()):
+        if self.prefix and self.prefix not in str(qn.prefix_part()):
             return False
 
-        if self.name and not self.name in str(qn.name_part()):
+        if self.name and self.name not in str(qn.name_part()):
             return False
 
-        if self.suffix and not self.suffix in str(qn.suffix_part()):
-            return False
-
-        return True
+        return not self.suffix or self.suffix in str(qn.suffix_part())
 
     def _repr_html_(self):
         result = r'''
@@ -88,7 +85,7 @@ class Constraints(_Constraints):
             reflink     = ''
             try:
                 ref         = references[refname]
-                if 'arXiv' == ref.eprint_archive():
+                if ref.eprint_archive() == 'arXiv':
                     reflink = fr' href="https://arxiv.org/abs/{ref.eprint_id().split(":")[-1]}"'
             except:
                 pass

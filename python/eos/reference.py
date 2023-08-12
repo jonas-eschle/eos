@@ -24,13 +24,10 @@ class References(_References):
         self.index = index
 
     def filter_entry(self, rn):
-        if self.year and not self.year in str(rn.year_part()):
+        if self.year and self.year not in str(rn.year_part()):
             return False
 
-        if self.index and not self.index in str(rn.index_part()):
-            return False
-
-        return True
+        return not self.index or self.index in str(rn.index_part())
 
     def _repr_html_(self):
         result = r'''<table>
@@ -56,7 +53,7 @@ class References(_References):
             eprint_id      = entry.eprint_id()
 
             link = ''
-            if 'arXiv' == eprint_archive:
+            if eprint_archive == 'arXiv':
                 link = fr' href="https://arxiv.org/abs/{eprint_id.split(":")[-1]}"'
 
             result += fr'''

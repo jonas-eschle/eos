@@ -36,12 +36,12 @@ def main():
         eprint = None
         if r.eprint_archive() == 'arXiv':
             pos = r.eprint_id()[::-1].find(':')
-            eprint = 'arXiv:' + r.eprint_id()[pos:]
+            eprint = f'arXiv:{r.eprint_id()[pos:]}'
 
-        print('[{}] : {}'.format(rn, r.authors()))
-        print('    {}'.format(r.title()))
+        print(f'[{rn}] : {r.authors()}')
+        print(f'    {r.title()}')
         if eprint:
-            print('    {}'.format(eprint))
+            print(f'    {eprint}')
         print()
 
     exit(0);

@@ -13,7 +13,7 @@ class PythonTests:
         """Check that the first term in the PYTHONPATH environment variable ends in '.libs'."""
         try:
             pythonpath = os.environ['PYTHONPATH'].split(os.pathsep)[0]
-            print('PYTHONPATH={}'.format(os.environ['PYTHONPATH']))
+            print(f"PYTHONPATH={os.environ['PYTHONPATH']}")
             if not pythonpath.endswith('python/.libs/'):
                 raise TestFailedError('PYTHONPATH not correctly set for running test cases')
 
@@ -25,12 +25,12 @@ class PythonTests:
         try:
             import _eos
         except ImportError as e:
-            raise TestFailedError('importing \'_eos\' failed: \'{}\''.format(str(e)))
+            raise TestFailedError(f"importing \'_eos\' failed: \'{str(e)}\'")
 
         try:
             import eos
         except ImportError as e:
-            raise TestFailedError('importing \'eos\' failed: \'{}\''.format(str(e)))
+            raise TestFailedError(f"importing \'eos\' failed: \'{str(e)}\'")
 
     def check_002_QualifiedName(self):
         """Check if an instance of QualifiedName can be created."""
@@ -107,7 +107,7 @@ class PythonTests:
         if not obs:
             raise TestFailedError('lookup of Observable failed')
 
-        if not obs.name() == 'B->Dlnu::BR':
+        if obs.name() != 'B->Dlnu::BR':
             raise TestFailedError('cannot obtain Observable name')
 
         value = None
@@ -129,7 +129,7 @@ class PythonTests:
         except:
             raise TestFailedError('cannot create Constraint')
 
-        if not con.name() == 'B->D::f_++f_0@HPQCD:2015A':
+        if con.name() != 'B->D::f_++f_0@HPQCD:2015A':
             raise TestFailedError('cannot obtain Constraint name')
 
         for llhb in con.blocks():
@@ -158,7 +158,7 @@ class PythonTests:
         try:
             pvalue = p['mass::b(MSbar)'].evaluate()
             mvalue = m.m_b_msbar(pvalue)
-            if not pvalue == mvalue:
+            if pvalue != mvalue:
                 raise TestFailedError('internal error')
         except:
             raise TestFailedError('cannot determine running b quark mass')
@@ -206,11 +206,11 @@ class LoggingTests(unittest.TestCase):
 # Run legacy test cases
 tests = PythonTests()
 for (name, testcase) in inspect.getmembers(tests, predicate=inspect.ismethod):
-    print("%s: " % name)
+    print(f"{name}: ")
     try:
         testcase()
     except TestFailedError as e:
-        print("    failed with error: %s" % e.msg)
+        print(f"    failed with error: {e.msg}")
         exit(1)
     print("    passed")
 

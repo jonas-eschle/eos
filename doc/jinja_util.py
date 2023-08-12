@@ -34,9 +34,7 @@ def get_template(abs_path):
         trim_blocks=True,
         lstrip_blocks=True)
     template_fname = fname.replace('.py', '.jinja')
-    template = env.get_template(template_fname)
-
-    return template
+    return env.get_template(template_fname)
 
 
 def print_template(rst_py__file__, **kwargs):

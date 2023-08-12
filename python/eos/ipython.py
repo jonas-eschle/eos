@@ -19,12 +19,7 @@ import scipy
 
 def __format_Parameter(p):
     name = ''
-    latex = p.latex()
-    if latex:
-        name = r'$' + latex + r'$'
-    else:
-        name = p.name()
-
+    name = f'${latex}$' if (latex := p.latex()) else p.name()
     return(
     """
     <table>
@@ -87,11 +82,15 @@ def __format_Options(o):
     return result
 
 def __format_ObservableEntry(e):
-    result = '<table>\n'
-    result += '<tr><th>QualifedName</th><td><tt style="color:grey">{qn}</tt></td></tr>'.format(qn=e.name())
+    result = (
+        '<table>\n'
+        + '<tr><th>QualifedName</th><td><tt style="color:grey">{qn}</tt></td></tr>'.format(
+            qn=e.name()
+        )
+    )
     result += '<tr><th>Description</th><td>$${latex}$$</td></tr>'.format(latex=e.latex())
-    kvs = [kv for kv in e.kinematic_variables()]
-    if len(kvs) > 0:
+    kvs = list(e.kinematic_variables())
+    if kvs:
         result += '<tr><th rowspan={rows}>Kinematic Variables</th><td>{kv}</td></tr>'.format(rows=len(kvs),kv=kvs[0])
     for i in range(1, len(kvs)):
         result += '<tr><td>{kv}</td></tr>'.format(kv=kvs[i])
@@ -104,18 +103,18 @@ def __format_Observable(obs):
     first_kinematics = "<td colspan=2>none</td>"
     further_kinematics = ""
     span_kinematics = 1
-    if len(kinematics) > 0:
+    if kinematics:
         first_kinematics = "<th>{kvn}</th><td>{kvv}</td>".format(kvn=kinematics[0][0], kvv=kinematics[0][1])
         further_kinematics = "\n".join([
             "<tr><th>{kvn}</th><td>{kvv}</td></tr>".format(kvn=kvn, kvv=kvv)
             for kvn, kvv in kinematics[1:]
         ])
         span_kinematics = len(kinematics)
-    options = [(ok, ov) for ok, ov in obs.options()]
+    options = list(obs.options())
     first_options = "<td colspan=2>none</td>"
     further_options = ""
     span_options = 1
-    if len(options) > 0:
+    if options:
         first_options = "<th>{ok}</th><td>{ov}</td>".format(ok=options[0][0], ov=options[0][1])
         further_options = "\n".join([
             "<tr><th>{ok}</th><td>{ov}</td></tr>".format(ok=ok, ov=ov)
@@ -155,8 +154,10 @@ def __format_Observable(obs):
     ))
 
 def __format_GoodnessOfFit(gof):
-    result = '<table>\n'
-    result += '<tr><th>constraint</th><th>&chi;<sup>2</sup></th><th>d.o.f.</th><th>local p-value</th></tr>\n'
+    result = (
+        '<table>\n'
+        + '<tr><th>constraint</th><th>&chi;<sup>2</sup></th><th>d.o.f.</th><th>local p-value</th></tr>\n'
+    )
     for entry in gof:
         local_chi2 = entry[1].chi2
         local_dof = entry[1].dof

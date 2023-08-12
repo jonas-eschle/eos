@@ -15,7 +15,9 @@ print('#' * len(page_title))
 print(page_title)
 print('#' * len(page_title))
 print('\n')
-print('The following is the full list of likelihood constraints (both experimental and theoretical) included in EOS v{}.\n\n'.format(eos.__version__))
+print(
+    f'The following is the full list of likelihood constraints (both experimental and theoretical) included in EOS v{eos.__version__}.\n\n'
+)
 print('\n')
 print('.. list-table::')
 print('   :widths: 50,50')
@@ -39,5 +41,5 @@ for qn, entry in constraints:
 
     entries = ['`{qn} <observables.html#{anchor}>`_'.format(qn=qn, anchor=qn.translate(translation).lower()) for qn in unique_observables]
     observables = ', '.join(entries)
-    print('     - {}'.format(observables))
+    print(f'     - {observables}')
 print('\n\n')

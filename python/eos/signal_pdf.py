@@ -72,7 +72,7 @@ class SignalPDF(_SignalPDF):
 
         # create start point, if not provided
         if start_point is None:
-            u = np.array([rng.uniform(0.0, 1.0) for j in range(0, len(ind_lower))])
+            u = np.array([rng.uniform(0.0, 1.0) for _ in range(0, len(ind_lower))])
             ubar = 1.0 - u
             start_point = ubar * ind_upper + u * ind_lower
 
@@ -81,7 +81,7 @@ class SignalPDF(_SignalPDF):
 
         # pre run to adapt markov chains
         for i in progressbar(range(0, preruns), desc="Pre-runs", leave=False):
-            eos.info('Prerun {} out of {}'.format(i, preruns))
+            eos.info(f'Prerun {i} out of {preruns}')
             accept_count = sampler.run(pre_N)
             accept_rate  = accept_count / pre_N * 100
             eos.info('Prerun {}: acceptance rate is {:3.0f}%'.format(i, accept_rate))
@@ -92,7 +92,7 @@ class SignalPDF(_SignalPDF):
         eos.info('Main run: started ...')
         sample_total  = N * stride
         sample_chunk  = sample_total // 100
-        sample_chunks = [sample_chunk for i in range(0, 99)]
+        sample_chunks = [sample_chunk for _ in range(0, 99)]
         sample_chunks.append(sample_total - 99 * sample_chunk)
         for current_chunk in progressbar(sample_chunks, desc="Main run", leave=False):
             accept_count = accept_count + sampler.run(current_chunk)
@@ -127,7 +127,10 @@ class SignalPDF(_SignalPDF):
             lambda n: kinematics[n],
             filter(lambda n: not(n.endswith('_min') or n.endswith('_max')), [kv.name() for kv in kinematics])
         ))
-        pdf.bounds = [(kinematics[v.name() + '_min'], kinematics[v.name() + '_max']) for v in pdf.variables]
+        pdf.bounds = [
+            (kinematics[f'{v.name()}_min'], kinematics[f'{v.name()}_max'])
+            for v in pdf.variables
+        ]
 
         return pdf
 
@@ -155,16 +158,13 @@ class SignalPDFs(_SignalPDFs):
         self.showall=showall
 
     def filter_entry(self, qn):
-        if self.prefix and not self.prefix in str(qn.prefix_part()):
+        if self.prefix and self.prefix not in str(qn.prefix_part()):
             return False
 
-        if self.name and not self.name in str(qn.name_part()):
+        if self.name and self.name not in str(qn.name_part()):
             return False
 
-        if self.suffix and not self.suffix in str(qn.suffix_part()):
-            return False
-
-        return True
+        return not self.suffix or self.suffix in str(qn.suffix_part())
 
     def _repr_html_(self):
         result = '<table>'

@@ -33,9 +33,8 @@ def invalid_chain(file, chain, cut_off=None):
 
     if mode > cut_off:
         return False
-    else:
-        print('skipping chain %d with mode %g < %g' % (chain, mode, cut_off))
-        return True
+    print('skipping chain %d with mode %g < %g' % (chain, mode, cut_off))
+    return True
 
 
 def merge_preruns(output_file_name, input_files, cut_off=None):
@@ -58,7 +57,7 @@ def merge_preruns(output_file_name, input_files, cut_off=None):
         output_file.create_group(g)
 
     for f_i, file_name in enumerate(input_files):
-        print("merging %s" % file_name)
+        print(f"merging {file_name}")
         input_file = h5py.File(file_name, 'r')
         nchains_in_file = len(input_file[groups[0]].keys())
 
@@ -97,7 +96,7 @@ def main():
         output = 'mcmc_pre_merged.hdf5'
         args.output = os.path.join(os.getcwd(), output)
 
-    print("Merging into output file %s" % args.output)
+    print(f"Merging into output file {args.output}")
 
     input_files = None
     if args.input_file_list is not None:
@@ -106,11 +105,7 @@ def main():
         input_files = [name[:-1] for name in f.readlines()]
         args.input_files.extend(input_files)
 
-    if args.cut_off is not None:
-        cut_off = float(args.cut_off)
-    else:
-        cut_off = None
-
+    cut_off = float(args.cut_off) if args.cut_off is not None else None
     merge_preruns(output_file_name=args.output,
                   input_files=args.input_files,
                   cut_off=cut_off)

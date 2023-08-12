@@ -24,6 +24,7 @@ Visit us at github.com/eos/eos
 
 """
 
+
 from .config import *
 
 # make sure that EOS_HOME points to the location of the wheel supplied data
@@ -31,7 +32,7 @@ from .config import *
 import os as _os
 try:
     if is_wheel:
-        if not 'EOS_HOME' in _os.environ:
+        if 'EOS_HOME' not in _os.environ:
             _os.environ['EOS_HOME'] = _os.path.normpath(_os.path.join(_os.path.dirname(__file__), '..', '_eos_data/'))
 except NameError:
     pass
@@ -71,7 +72,7 @@ def warn(msg, *args, **kwargs):
 def _log_callback(id, level, msg):
     full_msg = '{id} {msg}'.format(id=id, msg=msg)
 
-    if   level == _NativeLogLevel.INFO:
+    if level == _NativeLogLevel.INFO:
         logger.info(full_msg)
     elif level == _NativeLogLevel.DEBUG:
         logger.debug(full_msg)
@@ -79,9 +80,7 @@ def _log_callback(id, level, msg):
         logger.warning(full_msg)
     elif level == _NativeLogLevel.ERROR:
         logger.error(full_msg)
-    elif level == _NativeLogLevel.SILENT:
-        pass
-    else:
+    elif level != _NativeLogLevel.SILENT:
         raise RuntimeError('Cannot handle log level: {ll}. Log message: {msg}'.format(ll=level, msg=full_msg))
 
 _register_log_callback(_log_callback)

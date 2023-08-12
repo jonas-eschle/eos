@@ -18,8 +18,7 @@ import matplotlib
 from matplotlib import rcParams
 
 try:
-    if __IPYTHON__:
-        pass
+    pass
 except NameError as e:
     matplotlib.use('pgf')
 
