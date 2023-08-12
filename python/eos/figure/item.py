@@ -81,7 +81,7 @@ class Observable(Item):
 
         obs_entry = eos.Observables._get_obs_entry(observable)
         valid_kin_vars = [kv for kv in obs_entry.kinematic_variables()]
-        eos.info('Plotting EOS observable "{}"'.format(observable))
+        eos.info(f'Plotting EOS observable "{observable}"')
 
         self.label = label
 
