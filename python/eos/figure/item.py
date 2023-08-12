@@ -43,7 +43,7 @@ class Item:
 
 
 class Observable(Item):
-    """Represents an observable as a function of a variable.
+    r"""Represents an observable as a function of a variable.
     The variable can be either a kinematic variable or a parameter.
 
 

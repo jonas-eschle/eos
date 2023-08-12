@@ -68,7 +68,7 @@ class Plot:
 
 
 class TwoDimPlot(Plot):
-    """Represents a 2d plot with x and y axes.
+    r"""Represents a 2d plot with x and y axes.
 
     :param ax: Set of axes
     :type ax: matplotlib.pyplot.Axes or similar
