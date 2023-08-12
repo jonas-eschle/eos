@@ -63,7 +63,7 @@ class Observable(Item):
     :type options: dict
     :param label: Label used in the legend
     :type label: str
-    :param \**kwargs: Additional keyword arguments to pass to `matplotlib.axes.Axes.plot`
+    :param \**kwargs: Additional keyword arguments to pass to ``matplotlib.axes.Axes.plot``
     """
 
     def __init__(self,

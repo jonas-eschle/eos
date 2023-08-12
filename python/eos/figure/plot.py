@@ -30,7 +30,7 @@ class Plot:
     :type items: list[dict] or iterable[dict]
     :param title: Title of the plot
     :type title: str or NoneType (optional)
-    :param legend: Keyword arguments to pass to `matplotlib.pyplot.legend`
+    :param legend: Keyword arguments to pass to ``matplotlib.pyplot.legend``
     :type legend: dict
     """
     def __init__(self,
@@ -82,7 +82,7 @@ class TwoDimPlot(Plot):
     :type x_label: str (optional)
     :param y_label: Label of the y axis
     :type y_label: str (optional)
-    :param \**kwargs: Additional keyword arguments to pass to the base class `Plot`
+    :param \**kwargs: Additional keyword arguments to pass to the base class :py:class:`eos.figure.plot.Plot`
     """
     def __init__(self,
             ax,

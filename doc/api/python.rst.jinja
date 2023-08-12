@@ -299,10 +299,10 @@ the existing framework as soon as it is feature complete.
 
 .. note::
 
-   Import ``eos.figure`` before you do something like ``import matplotlib.pyplot as plt``,
-   because the ``eos.figure`` module sets its default plot style and a matplotlib backend.
+   Import :py:mod:`eos.figure` before you do something like ``import matplotlib.pyplot as plt``,
+   because the :py:mod:`eos.figure` module modified the default plot style and the matplotlib backend.
    All options (except the backend) can be overwritten by updating ``matplotlib.rcParams[...]``;
-   see also the ``matplotlib`` documentation.
+   see also the `matplotlib <https://matplotlib.org/>`_ documentation.
    Note that the default settings use LaTeX to create labels and math expressions,
    so for this to work latex needs to be available on your system.
 
@@ -318,19 +318,19 @@ Plot types
 ----------
 
 Below we list the available plot types.
-Each key `plot_type` corresponds to a class which is instantiated in the background.
-The user can supply keyword arguments which are documented under `eos.figure.plot`.
+Each key ``plot_type`` corresponds to a class which is instantiated in the background.
+The user can supply keyword arguments which are documented under :py:mod:`eos.figure.plot`.
 
 .. list-table::
    :widths: auto
    :header-rows: 1
 
-   * - `plot_type`
+   * - ``plot_type``
      - class
      - description
    {% for key, class, description in figure_plot_types %}
    * - ``{{ key }}``
-     - `{{ class }}`
+     - :py:class:`{{ class }}`
      - {{ description }}
    {% endfor %}
 
@@ -344,19 +344,19 @@ Item types
 ----------
 
 Below we list the available item types.
-Each key `item_type` corresponds to a class which is instantiated in the background.
-The user can supply keyword arguments which are documented under `eos.figure.item`.
+Each key ``item_type`` corresponds to a class which is instantiated in the background.
+The user can supply keyword arguments which are documented under :py:mod:`eos.figure.item`.
 
 .. list-table::
    :widths: auto
    :header-rows: 1
 
-   * - `item_type`
+   * - ``item_type``
      - class
      - description
    {% for key, class, description in figure_item_types %}
    * - ``{{ key }}``
-     - `{{ class }}`
+     - :py:class:`{{ class }}`
      - {{ description }}
    {% endfor %}
 

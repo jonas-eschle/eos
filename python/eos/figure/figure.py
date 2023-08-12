@@ -86,7 +86,7 @@ def make(description:dict) -> Figure:
     This function takes a figure description and handles the contruction of a publication-grade
     figure in a convenient way.
     The description contains the arguments used for initialization of the objects in the
-    `eos.figure` module.
+    :py:mod:`eos.figure` module.
 
     A figure can contain one or more plots, where each plot containts one or more items such
     as a data series from the evaluation of an observable or a kernel density estimate to
