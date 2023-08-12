@@ -28,11 +28,11 @@ class DocTests:
 # Run legacy test cases
 tests = DocTests()
 for (name, testcase) in inspect.getmembers(tests, predicate=inspect.ismethod):
-    print("%s: " % name)
+    print(f"{name}: ")
     try:
         testcase()
     except TestFailedError as e:
-        print("    failed with error: %s" % e.msg)
+        print(f"    failed with error: {e.msg}")
         exit(1)
     print("    passed")
 

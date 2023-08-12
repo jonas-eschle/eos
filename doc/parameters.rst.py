@@ -25,14 +25,16 @@ def key(x):
     elif type(x[0]) is str:
         return ('', '', x[0])
     else:
-        raise ValueError('x[0] is of unexpected type {}'.format(str(type(x[0]))))
+        raise ValueError(f'x[0] is of unexpected type {str(type(x[0]))}')
 
 page_title = 'List of Parameters'
 print('#' * len(page_title))
 print(page_title)
 print('#' * len(page_title))
 print('\n')
-print('The following is the full list of parameters and their values used in EOS v{}.\n\n'.format(eos.__version__))
+print(
+    f'The following is the full list of parameters and their values used in EOS v{eos.__version__}.\n\n'
+)
 for section in parameters.sections():
     section_title = latex_to_rst(section.name())
     print('*' * len(section_title))

@@ -30,17 +30,17 @@ class Mode:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'Mode':
-            raise RuntimeError('Path {} not pointing to a Mode file'.format(path))
+        if description['type'] != 'Mode':
+            raise RuntimeError(f'Path {path} not pointing to a Mode file')
 
         self.type = 'Mode'
         self.varied_parameters = description['parameters']
@@ -59,14 +59,14 @@ class Mode:
         :param mode: The mode to be stored.
         :type mode: numpy.ndarray
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'Mode'
-        description['parameters'] = [{
-            'name': p.name(),
-            'min': p.min(),
-            'max': p.max()
-        } for p in parameters]
+        description = {
+            'version': eos.__version__,
+            'type': 'Mode',
+            'parameters': [
+                {'name': p.name(), 'min': p.min(), 'max': p.max()}
+                for p in parameters
+            ],
+        }
         description['mode'] = mode.tolist()
         description['pvalue'] = float(pvalue) if pvalue is not None else None
         description['local_pvalues'] = local_pvalues
@@ -84,17 +84,17 @@ class MarkovChain:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'MarkovChain':
-            raise RuntimeError('Path {} not pointing to a MarkovChain'.format(path))
+        if description['type'] != 'MarkovChain':
+            raise RuntimeError(f'Path {path} not pointing to a MarkovChain')
 
         self.type = 'MarkovChain'
         self.varied_parameters = description['parameters']
@@ -102,18 +102,18 @@ class MarkovChain:
 
         f = os.path.join(path, 'samples.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Samples file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Samples file {f} does not exist or is not a file')
         self.samples = _np.load(f)
 
         f = os.path.join(path, 'usamples.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('U-space samples file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'U-space samples file {f} does not exist or is not a file')
         self.usamples = _np.load(f)
 
         if description['has-weights']:
             f = os.path.join(path, 'weights.npy')
             if not os.path.exists(f) or not os.path.isfile(f):
-                raise RuntimeError('Weights file {} does not exist or is not a file'.format(f))
+                raise RuntimeError(f'Weights file {f} does not exist or is not a file')
             self.weights = _np.load(f)
         else:
             self.weights = None
@@ -134,24 +134,30 @@ class MarkovChain:
         :param weights: Weights on a linear scale as a 2D array of shape (N, 1).
         :type weights: 2D numpy array, optional
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'MarkovChain'
-        description['parameters'] = [{
-            'name': p.name(),
-            'min': p.min(),
-            'max': p.max()
-        } for p in parameters]
-        description['has-weights'] = (not weights is None)
+        description = {
+            'version': eos.__version__,
+            'type': 'MarkovChain',
+            'parameters': [
+                {'name': p.name(), 'min': p.min(), 'max': p.max()}
+                for p in parameters
+            ],
+        }
+        description['has-weights'] = weights is not None
 
-        if not samples.shape[1] == len(parameters):
-            raise RuntimeError('Shape of samples {} incompatible with number of parameters {}'.format(samples.shape, len(parameters)))
+        if samples.shape[1] != len(parameters):
+            raise RuntimeError(
+                f'Shape of samples {samples.shape} incompatible with number of parameters {len(parameters)}'
+            )
 
-        if not usamples.shape[1] == len(parameters):
-            raise RuntimeError('Shape of usamples {} incompatible with number of parameters {}'.format(usamples.shape, len(parameters)))
+        if usamples.shape[1] != len(parameters):
+            raise RuntimeError(
+                f'Shape of usamples {usamples.shape} incompatible with number of parameters {len(parameters)}'
+            )
 
-        if not weights is None and not samples.shape[0] == weights.shape[0]:
-            raise RuntimeError('Shape of weights {} incompatible with shape of samples {}'.format(weights.shape, samples.shape))
+        if weights is not None and samples.shape[0] != weights.shape[0]:
+            raise RuntimeError(
+                f'Shape of weights {weights.shape} incompatible with shape of samples {samples.shape}'
+            )
 
         os.makedirs(path, exist_ok=True)
         with open(os.path.join(path, 'description.yaml'), 'w') as description_file:
@@ -159,7 +165,7 @@ class MarkovChain:
         _np.save(os.path.join(path, 'samples.npy'), samples)
         _np.save(os.path.join(path, 'usamples.npy'), usamples)
 
-        if not weights is None:
+        if weights is not None:
             _np.save(os.path.join(path, 'weights.npy'), weights)
 
 
@@ -171,17 +177,17 @@ class MixtureDensity:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'MixtureDensity':
-            raise RuntimeError('Path {} not pointing to a MixtureDensity'.format(path))
+        if description['type'] != 'MixtureDensity':
+            raise RuntimeError(f'Path {path} not pointing to a MixtureDensity')
 
         self.type = 'MixtureDensity'
         self.components = description['components']
@@ -203,10 +209,11 @@ class MixtureDensity:
         :param density: Mixture density.
         :type density: pypmc.density.MixtureDensity
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'MixtureDensity'
-        description['components'] = []
+        description = {
+            'version': eos.__version__,
+            'type': 'MixtureDensity',
+            'components': [],
+        }
         for c in density.components:
             if type(c) is pypmc.density.gauss.Gauss:
                 description['components'].append({
@@ -215,7 +222,7 @@ class MixtureDensity:
                     'sigma': c.sigma.tolist()
                 })
             else:
-                raise RuntimeError('Unsupported type of MixtureDensity component: {}'.format(type(c)))
+                raise RuntimeError(f'Unsupported type of MixtureDensity component: {type(c)}')
         description['weights'] = density.weights.tolist()
 
         os.makedirs(path, exist_ok=True)
@@ -237,17 +244,15 @@ class MixtureDensity:
         components = []
         weights = []
         for cA, wA in zip(densityA.components, densityA.weights):
-            if type(cA) is pypmc.density.gauss.Gauss:
-                for cB, wB in zip(densityB.components, densityB.weights):
-                    if type(cB) is pypmc.density.gauss.Gauss:
-                        cAB_mu = _np.concatenate((cA.mu, cB.mu))
-                        cAB_sigma = block_diag(cA.sigma, cB.sigma)
-                        components.append(pypmc.density.gauss.Gauss(cAB_mu, cAB_sigma))
-                        weights.append(wA * wB)
-                    else:
-                        raise RuntimeError('Unsupported type of MixtureDensity component: {}'.format(type(cB)))
-            else:
-                raise RuntimeError('Unsupported type of MixtureDensity component: {}'.format(type(cA)))
+            if type(cA) is not pypmc.density.gauss.Gauss:
+                raise RuntimeError(f'Unsupported type of MixtureDensity component: {type(cA)}')
+            for cB, wB in zip(densityB.components, densityB.weights):
+                if type(cB) is not pypmc.density.gauss.Gauss:
+                    raise RuntimeError(f'Unsupported type of MixtureDensity component: {type(cB)}')
+                cAB_mu = _np.concatenate((cA.mu, cB.mu))
+                cAB_sigma = block_diag(cA.sigma, cB.sigma)
+                components.append(pypmc.density.gauss.Gauss(cAB_mu, cAB_sigma))
+                weights.append(wA * wB)
         return pypmc.density.mixture.MixtureDensity(components, weights / _np.sum(weights))
 
     @staticmethod
@@ -276,17 +281,17 @@ class PMCSampler:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'PMCSampler':
-            raise RuntimeError('Path {} not pointing to a PMCSampler'.format(path))
+        if description['type'] != 'PMCSampler':
+            raise RuntimeError(f'Path {path} not pointing to a PMCSampler')
 
         self.type = 'PMCSampler'
         self.varied_parameters = description['parameters']
@@ -334,15 +339,14 @@ class PMCSampler:
         :param weights: Weights on a linear scale as a 2D array of shape (N, 1). Needed to generate the test statistic.
         :type weights: 1D numpy array, optional
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'PMCSampler'
-        description['parameters'] = [{
-            'name': p.name(),
-            'min': p.min(),
-            'max': p.max()
-        } for p in parameters]
-
+        description = {
+            'version': eos.__version__,
+            'type': 'PMCSampler',
+            'parameters': [
+                {'name': p.name(), 'min': p.min(), 'max': p.max()}
+                for p in parameters
+            ],
+        }
         # Don't write components that have a 0 weight
         purged_components = []
         purged_weights = []
@@ -382,17 +386,17 @@ class ImportanceSamples:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'ImportanceSamples':
-            raise RuntimeError('Path {} not pointing to an ImportanceSamples object'.format(path))
+        if description['type'] != 'ImportanceSamples':
+            raise RuntimeError(f'Path {path} not pointing to an ImportanceSamples object')
 
         self.type = 'ImportanceSamples'
         self.varied_parameters = description['parameters']
@@ -400,12 +404,12 @@ class ImportanceSamples:
 
         f = os.path.join(path, 'samples.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Samples file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Samples file {f} does not exist or is not a file')
         self.samples = _np.load(f)
 
         f = os.path.join(path, 'weights.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Weights file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Weights file {f} does not exist or is not a file')
         self.weights = _np.load(f)
 
         f = os.path.join(path, 'posterior_values.npy')
@@ -428,22 +432,28 @@ class ImportanceSamples:
         :param weights: Weights on a linear scale as a 2D array of shape (N, 1).
         :type weights: 1D numpy array, optional
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'ImportanceSamples'
-        description['parameters'] = [{
-            'name': p.name(),
-            'min': p.min(),
-            'max': p.max()
-        } for p in parameters]
+        description = {
+            'version': eos.__version__,
+            'type': 'ImportanceSamples',
+            'parameters': [
+                {'name': p.name(), 'min': p.min(), 'max': p.max()}
+                for p in parameters
+            ],
+        }
+        if samples.shape[1] != len(parameters):
+            raise RuntimeError(
+                f'Shape of samples {samples.shape} incompatible with number of parameters {len(parameters)}'
+            )
 
-        if not samples.shape[1] == len(parameters):
-            raise RuntimeError('Shape of samples {} incompatible with number of parameters {}'.format(samples.shape, len(parameters)))
+        if weights is not None and samples.shape[0] != weights.shape[0]:
+            raise RuntimeError(
+                f'Shape of weights {weights.shape} incompatible with shape of samples {samples.shape}'
+            )
 
-        if not weights is None and not samples.shape[0] == weights.shape[0]:
-            raise RuntimeError('Shape of weights {} incompatible with shape of samples {}'.format(weights.shape, samples.shape))
-
-        if not posterior_values is None and not samples.shape[0] == posterior_values.shape[0]:
+        if (
+            posterior_values is not None
+            and samples.shape[0] != posterior_values.shape[0]
+        ):
             raise RuntimeError(f'Shape of posterior values {posterior_values.shape} incompatible with shape of samples {samples.shape}')
 
         os.makedirs(path, exist_ok=True)
@@ -451,7 +461,7 @@ class ImportanceSamples:
             yaml.dump(description, description_file, default_flow_style=False)
         _np.save(os.path.join(path, 'samples.npy'), samples)
         _np.save(os.path.join(path, 'weights.npy'), weights)
-        if not posterior_values is None:
+        if posterior_values is not None:
             _np.save(os.path.join(path, 'posterior_values.npy'), posterior_values)
 
 
@@ -463,17 +473,17 @@ class Prediction:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'Prediction':
-            raise RuntimeError('Path {} not pointing to a Prediction'.format(path))
+        if description['type'] != 'Prediction':
+            raise RuntimeError(f'Path {path} not pointing to a Prediction')
 
         self.type = 'Prediction'
         self.varied_parameters = description['observables']
@@ -481,12 +491,12 @@ class Prediction:
 
         f = os.path.join(path, 'samples.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Samples file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Samples file {f} does not exist or is not a file')
         self.samples = _np.load(f)
 
         f = os.path.join(path, 'weights.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Weights file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Weights file {f} does not exist or is not a file')
         self.weights = _np.load(f)
 
 
@@ -503,19 +513,26 @@ class Prediction:
         :param weights: Weights on a linear scale as a 1D array of shape (N, ).
         :type weights: 1D numpy array
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'Prediction'
-        description['observables'] = [{
-            'name': o.name().full(),
-            'kinematics': { k.name(): float(k) for k in o.kinematics() }
-        } for o in observables]
+        description = {
+            'version': eos.__version__,
+            'type': 'Prediction',
+            'observables': [
+                {
+                    'name': o.name().full(),
+                    'kinematics': {k.name(): float(k) for k in o.kinematics()},
+                }
+                for o in observables
+            ],
+        }
+        if samples.shape[1] != len(observables):
+            raise RuntimeError(
+                f'Shape of samples {samples.shape} incompatible with number of observables {len(observables)}'
+            )
 
-        if not samples.shape[1] == len(observables):
-            raise RuntimeError('Shape of samples {} incompatible with number of observables {}'.format(samples.shape, len(observables)))
-
-        if not samples.shape[0] == weights.shape[0]:
-            raise RuntimeError('Shape of weights {} incompatible with shape of samples {}'.format(weights.shape, samples.shape))
+        if samples.shape[0] != weights.shape[0]:
+            raise RuntimeError(
+                f'Shape of weights {weights.shape} incompatible with shape of samples {samples.shape}'
+            )
 
         os.makedirs(path, exist_ok=True)
         with open(os.path.join(path, 'description.yaml'), 'w') as description_file:
@@ -532,17 +549,17 @@ class DynestyResults:
         :type path: str
         """
         if not os.path.exists(path) or not os.path.isdir(path):
-            raise RuntimeError('Path {} does not exist or is not a directory'.format(path))
+            raise RuntimeError(f'Path {path} does not exist or is not a directory')
 
         f = os.path.join(path, 'description.yaml')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Description file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Description file {f} does not exist or is not a file')
 
         with open(f) as df:
             description = yaml.load(df, Loader=yaml.SafeLoader)
 
-        if not description['type'] == 'DynestyResults':
-            raise RuntimeError('Path {} not pointing to a DynestyResults file'.format(path))
+        if description['type'] != 'DynestyResults':
+            raise RuntimeError(f'Path {path} not pointing to a DynestyResults file')
 
         self.type = 'DynestyResults'
         self.varied_parameters = description['parameters']
@@ -550,7 +567,7 @@ class DynestyResults:
 
         f = os.path.join(path, 'dynesty_results.npy')
         if not os.path.exists(f) or not os.path.isfile(f):
-            raise RuntimeError('Dynesty results file {} does not exist or is not a file'.format(f))
+            raise RuntimeError(f'Dynesty results file {f} does not exist or is not a file')
 
         res_dict = _np.load(f, allow_pickle=True).item()
         if "blob" in res_dict:
@@ -571,15 +588,14 @@ class DynestyResults:
         :param results: The results of a nested sampling run.
         :type results: dynesty.results.Results
         """
-        description = {}
-        description['version'] = eos.__version__
-        description['type'] = 'DynestyResults'
-        description['parameters'] = [{
-            'name': p.name(),
-            'min': p.min(),
-            'max': p.max()
-        } for p in parameters]
-
+        description = {
+            'version': eos.__version__,
+            'type': 'DynestyResults',
+            'parameters': [
+                {'name': p.name(), 'min': p.min(), 'max': p.max()}
+                for p in parameters
+            ],
+        }
         os.makedirs(path, exist_ok=True)
         with open(os.path.join(path, 'description.yaml'), 'w') as description_file:
             yaml.dump(description, description_file, default_flow_style=False)

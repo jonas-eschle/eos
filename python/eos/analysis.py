@@ -32,8 +32,7 @@ class BestFitPoint:
 
 
     def _repr_html_(self):
-        result = '<table>\n'
-        result += '<tr><th>parameter</th><th>value</th></tr>\n'
+        result = '<table>\n' + '<tr><th>parameter</th><th>value</th></tr>\n'
         for p, v in zip(self.analysis.varied_parameters, self.point):
             name = p.name()
             latex = p.latex()
@@ -112,9 +111,9 @@ class Analysis:
                 minv = float(prior['min'])
                 maxv = float(prior['max'])
                 prior_type = prior['type'] if 'type' in prior else 'uniform'
-                if 'uniform' == prior_type or 'flat' == prior_type:
+                if prior_type in ['uniform', 'flat']:
                     self._log_posterior.add(eos.LogPrior.Flat(self.parameters, parameter, eos.ParameterRange(minv, maxv)), False)
-                elif 'gauss' == prior_type or 'gaussian' == prior_type:
+                elif prior_type in ['gauss', 'gaussian']:
                     central = prior['central']
                     sigma = prior['sigma']
                     if type(sigma) is list or type(sigma) is tuple:
@@ -129,13 +128,13 @@ class Analysis:
                             central - sigma_lo, central, central + sigma_hi
                         ),
                         False)
-                elif 'scale' == prior_type:
+                elif prior_type == 'scale':
                     mu_0 = prior['mu_0']
                     lambda_scale = prior['lambda']
                     self._log_posterior.add(eos.LogPrior.Scale(self.parameters,
                         parameter, eos.ParameterRange(minv, maxv), mu_0, lambda_scale), False)
                 else:
-                    raise ValueError('Unknown prior type \'{}\''.format(prior_type))
+                    raise ValueError(f"Unknown prior type \'{prior_type}\'")
 
                 p = self.parameters[parameter]
                 p.set_min(minv)
@@ -146,20 +145,18 @@ class Analysis:
                 constraint_entry = eos.Constraints()[constraint_name]
                 log_prior = constraint_entry.make_prior(self.parameters, constraint_name.options_part())
                 self._log_posterior.add(log_prior, False)
-                for p in log_prior.varied_parameters():
-                    self.varied_parameters.append(p)
+                self.varied_parameters.extend(iter(log_prior.varied_parameters()))
             else:
                 raise ValueError('Prior specification must contains either a parameter or a constraint')
 
         # check for duplicate entries in the likelihood
         set_likelihood = set(likelihood)
         if len(set_likelihood) != len(likelihood):
-            raise ValueError(f'The likelihood contains duplicate entries')
+            raise ValueError('The likelihood contains duplicate entries')
         set_manual_constraints = set(manual_constraints.keys())
         if len(set_manual_constraints) != len(manual_constraints):
-            raise ValueError(f'The manual constraints contain duplicate entries')
-        set_intersection = set_likelihood.intersection(set_manual_constraints)
-        if len(set_intersection) > 0:
+            raise ValueError('The manual constraints contain duplicate entries')
+        if set_intersection := set_likelihood.intersection(set_manual_constraints):
             raise ValueError(f'The likelihood contains constraint names also present in the manual_constraints: {set_intersection}')
 
         # record all constraints that comprise the likelihood
@@ -186,11 +183,15 @@ class Analysis:
 
         used_but_unvaried = used_parameter_names - varied_parameter_names - fixed_parameter_names
         if (len(used_but_unvaried) > 0):
-            eos.info('likelihood probably depends on {} parameter(s) that do not appear in the prior; check prior?'.format(len(used_but_unvaried)))
+            eos.info(
+                f'likelihood probably depends on {len(used_but_unvaried)} parameter(s) that do not appear in the prior; check prior?'
+            )
         for n in used_but_unvaried:
-            eos.debug('used, but not included in any prior: \'{}\''.format(n))
+            eos.debug(f"used, but not included in any prior: \'{n}\'")
         for n in varied_parameter_names - used_parameter_names:
-            eos.warn('likelihood does not depend on parameter \'{}\'; remove from prior or check options!'.format(n))
+            eos.warn(
+                f"likelihood does not depend on parameter \'{n}\'; remove from prior or check options!"
+            )
 
 
     def _u_to_par(self, u):
@@ -227,7 +228,7 @@ class Analysis:
             return list(map(Analysis._sanitize_manual_input, data))
 
         # all valid cases are covered above
-        raise ValueError("Unexpected entry type {} in manual_constraint".format(type(data)))
+        raise ValueError(f"Unexpected entry type {type(data)} in manual_constraint")
 
 
     @staticmethod
@@ -239,14 +240,12 @@ class Analysis:
             where = np.logical_or(weights > 0, np.isfinite(weights)))
         if weights_sum <= 0:
             return 0.
-        else:
-            normalized_weights = weights / weights_sum
-            # mask negative and nan weights
-            normalized_weights = np.ma.MaskedArray(normalized_weights, copy=False,
-                mask=(np.logical_or(normalized_weights <= 0, np.isnan(normalized_weights))))
-            entropy = - np.sum(normalized_weights * np.log(normalized_weights.filled(1.0)))
-            perplexity = np.exp(entropy) / len(normalized_weights)
-            return perplexity
+        normalized_weights = weights / weights_sum
+        # mask negative and nan weights
+        normalized_weights = np.ma.MaskedArray(normalized_weights, copy=False,
+            mask=(np.logical_or(normalized_weights <= 0, np.isnan(normalized_weights))))
+        entropy = - np.sum(normalized_weights * np.log(normalized_weights.filled(1.0)))
+        return np.exp(entropy) / len(normalized_weights)
 
     @staticmethod
     def _ess(weights):
@@ -290,10 +289,10 @@ class Analysis:
         else:
             _start_point = np.array(start_point)
 
-        scipy_opt_kwargs = { 'method': 'SLSQP', 'options': { 'ftol': 1.0e-13 } }
-        # Update default values. If no keyword arguments are passed, kwargs is an empty dict
-        scipy_opt_kwargs.update(kwargs)
-
+        scipy_opt_kwargs = {
+            'method': 'SLSQP',
+            'options': {'ftol': 1.0e-13},
+        } | kwargs
         res = scipy.optimize.minimize(
             self.negative_log_pdf,
             self._par_to_u(_start_point),
@@ -303,7 +302,7 @@ class Analysis:
 
         if not res.success:
             eos.warn('Optimization did not succeed')
-            eos.warn('  optimizer'' message reads: {}'.format(res.message))
+            eos.warn(f'  optimizer message reads: {res.message}')
         else:
             eos.info('Optimization goal achieved after {nfev} function evaluations'.format(nfev=res.nfev))
 
@@ -398,7 +397,7 @@ class Analysis:
 
         # pre run to adapt markov chains
         for i in progressbar(range(0, preruns), desc="Pre-runs", leave=False):
-            eos.info('Prerun {} out of {}'.format(i, preruns))
+            eos.info(f'Prerun {i} out of {preruns}')
             accept_count = sampler.run(pre_N)
             accept_rate  = accept_count / pre_N * 100
             eos.info('Prerun {}: acceptance rate is {:3.0f}%'.format(i, accept_rate))
@@ -409,7 +408,7 @@ class Analysis:
         eos.info('Main run: started ...')
         sample_total  = N * stride
         sample_chunk  = sample_total // 100
-        sample_chunks = [sample_chunk for i in range(0, 99)]
+        sample_chunks = [sample_chunk for _ in range(0, 99)]
         sample_chunks.append(sample_total - 99 * sample_chunk)
         for current_chunk in progressbar(sample_chunks, desc="Main run", leave=False):
             accept_count = accept_count + sampler.run(current_chunk)
@@ -422,19 +421,19 @@ class Analysis:
         weights = sampler.target_values[:][::stride, 0]
 
         if not observables:
-            if return_uspace:
-                return(parameter_samples, u_samples, weights)
-            else:
-                return(parameter_samples, weights)
-        else:
-            observable_samples = []
-            for parameters in parameter_samples:
-                for p, v in zip(self.varied_parameters, parameters):
-                    p.set(v)
+            return (
+                (parameter_samples, u_samples, weights)
+                if return_uspace
+                else (parameter_samples, weights)
+            )
+        observable_samples = []
+        for parameters in parameter_samples:
+            for p, v in zip(self.varied_parameters, parameters):
+                p.set(v)
 
-                observable_samples.append([o.evaluate() for o in observables])
+            observable_samples.append([o.evaluate() for o in observables])
 
-            return(parameter_samples, weights, np.array(observable_samples))
+        return(parameter_samples, weights, np.array(observable_samples))
 
 
     def sample_pmc(self, log_proposal, step_N=1000, steps=10, final_N=5000, rng=np.random.mtrand,

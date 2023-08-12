@@ -79,15 +79,18 @@ class ClassMethodTests(unittest.TestCase):
         values = np.array([4.123, 3.141])
 
         input_output_cases = [
-            {'dirty': np.double(1.61), 'clean': float(1.61)},
+            {'dirty': np.double(1.61), 'clean': 1.61},
             {'dirty': np.str_('Gaussian'), 'clean': "Gaussian"},
             {
-             'dirty': {'type': types[0], 'mean': values[0]}, # Simplified manual contraint with numpy types
-             'clean': {'type': 'Gaussian', 'mean': float(4.123)}
+                'dirty': {'type': types[0], 'mean': values[0]},
+                'clean': {'type': 'Gaussian', 'mean': 4.123},
             },
             {
-             'dirty': {'type': types, 'mean': values}, # Simplified manual contraint with numpy arrays
-             'clean': {'type': ['Gaussian', 'Gaussian'], 'mean': [float(4.123), float(3.141)]}
+                'dirty': {'type': types, 'mean': values},
+                'clean': {
+                    'type': ['Gaussian', 'Gaussian'],
+                    'mean': [4.123, 3.141],
+                },
             },
         ]
 
@@ -140,10 +143,16 @@ class ClassMethodTests(unittest.TestCase):
         # Test analysis definition
         analysis = eos.Analysis(**analysis_args)
 
-        # Sample from the prior
-        results_list = []
-        for i in range(0, 2):
-            results_list.append(analysis.sample_nested(bound='multi', nlive=250, dlogz=0.01, seed=10 + i, print_progress=False))
+        results_list = [
+            analysis.sample_nested(
+                bound='multi',
+                nlive=250,
+                dlogz=0.01,
+                seed=10 + i,
+                print_progress=False,
+            )
+            for i in range(0, 2)
+        ]
         results  = dynesty.utils.merge_runs(results_list)
 
         # Test samples against constraint
@@ -158,7 +167,7 @@ class ClassMethodTests(unittest.TestCase):
 
         avg    = np.median(results.samples_equal(), axis=0)
         delta  = avg - means
-        chi2_1 = np.dot(delta[0:8], np.dot(np.linalg.inv(cov), delta[0:8]))
+        chi2_1 = np.dot(delta[:8], np.dot(np.linalg.inv(cov), delta[:8]))
         chi2_2 = (avg[8] - means[8])**2 / sigmas[8]**2
         chi2_3 = (avg[9] - means[9])**2 / sigmas[9]**2
         self.assertLess(chi2_1, 2.0325e-0, 'chi^2 for BSZ parameters exceeds 2% integrated probability for 8 degrees of freedom')
@@ -206,10 +215,16 @@ class ClassMethodTests(unittest.TestCase):
         # Test analysis definition
         analysis = eos.Analysis(**analysis_args)
 
-        # Sample from the prior
-        results_list = []
-        for i in range(0, 2):
-            results_list.append(analysis.sample_nested(bound='multi', nlive=250, dlogz=0.01, seed=10 + i, print_progress=False))
+        results_list = [
+            analysis.sample_nested(
+                bound='multi',
+                nlive=250,
+                dlogz=0.01,
+                seed=10 + i,
+                print_progress=False,
+            )
+            for i in range(0, 2)
+        ]
         results  = dynesty.utils.merge_runs(results_list)
 
         # Test samples against analytic results:

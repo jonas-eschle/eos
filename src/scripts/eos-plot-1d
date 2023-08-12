@@ -73,7 +73,7 @@ def main():
             'hdf5-file': args.input,
         }
         if args.kde_bandwidth:
-            kde_item.update({'bandwidth': args.kde_bandwidth})
+            kde_item['bandwidth'] = args.kde_bandwidth
 
         instructions['contents'].append(kde_item)
 

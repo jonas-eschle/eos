@@ -38,13 +38,9 @@ def make_doc_observables(group):
             unit_string = r'\, \left[ {unit_string} \right]'.format(unit_string=entry.unit().latex())
 
         latex = entry.latex()
-        if len(latex) > 0:
-            description = latex_to_rst(latex + unit_string)
-        else:
-            description = r'' # signal latex string n/a
-
+        description = latex_to_rst(latex + unit_string) if len(latex) > 0 else r''
         qualified_name = str(qn)
-        kinematics     = ', '.join([('``' + kv + '``') for kv in entry.kinematic_variables()])
+        kinematics = ', '.join([f'``{kv}``' for kv in entry.kinematic_variables()])
 
         observables.append({
             'qualified_name': qualified_name,

@@ -96,7 +96,7 @@ class Plotter:
 
     def setup_plot(self):
         """Setting up the plot based on the provided instruction"""
-        if not 'plot' in self.instructions:
+        if 'plot' not in self.instructions:
             raise KeyError('no plot metadata specified')
 
         if 'axis' in self.instructions:
@@ -106,15 +106,12 @@ class Plotter:
 
         myplot = self.instructions['plot']
 
-        mytitle = ''
         myylabel = ''
         myxlabel = ''
         myyscale = 'linear'
         myxscale = 'linear'
 
-        if 'title' in myplot:
-            mytitle = myplot['title']
-
+        mytitle = myplot['title'] if 'title' in myplot else ''
         if 'size' in myplot:
             xwidth, ywidth = myplot['size']
             # size is specified in cm, matplotlib expects inches
@@ -159,9 +156,8 @@ class Plotter:
                 self.xticks = matplotlib.ticker.FuncFormatter(lambda x, pos, xscale=self.x_scaling_factor: self.xformat.format(x=x / xscale))
                 self.ax.xaxis.set_major_formatter(self.xticks)
 
-            else:
-                if 'format' in myx:
-                    eos.warn("Argument plot:x:format is only used when plot:x:scale is used")
+            elif 'format' in myx:
+                eos.warn("Argument plot:x:format is only used when plot:x:scale is used")
 
         if 'y' in myplot:
             myy = myplot['y']
@@ -196,9 +192,8 @@ class Plotter:
                 self.yticks = matplotlib.ticker.FuncFormatter(lambda y, pos, yscale=self.y_scaling_factor: self.yformat.format(x=y / yscale))
                 self.ax.yaxis.set_major_formatter(self.yticks)
 
-            else:
-                if 'format' in myy:
-                    eos.warn("Argument plot:y:format is only used when plot:y:scale is used")
+            elif 'format' in myy:
+                eos.warn("Argument plot:y:format is only used when plot:y:scale is used")
 
         if 'grid' in myplot:
             self.ax.grid(b=True, which=myplot['grid'])
@@ -332,12 +327,10 @@ class Plotter:
             self.plotter.ax.add_patch(rect)
 
         def handles_labels(self):
-            if self.label:
-                handle = plt.Rectangle((0,0),1,1, color=self.color)
-                label  = self.label
-                return ([handle], [label])
-            else:
+            if not self.label:
                 return ([], [])
+            handle = plt.Rectangle((0,0),1,1, color=self.color)
+            return [handle], [self.label]
 
 
     class Graph(BasePlot):

@@ -42,16 +42,13 @@ class Observables(_Observables):
         self.showall=showall
 
     def filter_entry(self, qn):
-        if self.prefix and not self.prefix in str(qn.prefix_part()):
+        if self.prefix and self.prefix not in str(qn.prefix_part()):
             return False
 
-        if self.name and not self.name in str(qn.name_part()):
+        if self.name and self.name not in str(qn.name_part()):
             return False
 
-        if self.suffix and not self.suffix in str(qn.suffix_part()):
-            return False
-
-        return True
+        return not self.suffix or self.suffix in str(qn.suffix_part())
 
     def _repr_html_(self):
         result = r'''
@@ -148,11 +145,16 @@ class Observables(_Observables):
                         unit = r'$$\left[ {unit} \right]$$'.format(unit=unit)
                     if not self.filter_entry(qn):
                         continue
-                    if (0 == len(latex)) and not self.showall:
+                    if len(latex) == 0 and not self.showall:
                         continue
 
-                    kinematic_variables = r'<br>'.join(['<tt>' + str(kv) + '</tt>' for kv in entry.kinematic_variables()])
-                    if len(kinematic_variables) == 0:
+                    kinematic_variables = r'<br>'.join(
+                        [
+                            f'<tt>{str(kv)}</tt>'
+                            for kv in entry.kinematic_variables()
+                        ]
+                    )
+                    if not kinematic_variables:
                         kinematic_variables = '&mdash;'
 
                     keys           = []
@@ -223,6 +225,6 @@ class Observables(_Observables):
     def _get_obs_entry(name):
         obs = Observables()[name]
         if obs is None:
-            raise ValueError("Observable with name '" + name + "' is not known")
+            raise ValueError(f"Observable with name '{name}' is not known")
         else:
             return obs

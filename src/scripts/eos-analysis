@@ -28,10 +28,7 @@ import yaml
 
 # return the value of the environment variable, or a default value if the variable is unset.
 def get_from_env(envvar, default):
-    if not envvar in os.environ:
-        return default
-
-    return os.environ[envvar]
+    return default if envvar not in os.environ else os.environ[envvar]
 
 
 def _parser():
@@ -474,14 +471,10 @@ def main():
     parser = _parser()
     args = parser.parse_args()
 
-    if not 'cmd' in args:
-        parser.print_help()
-    elif not callable(args.cmd):
+    if 'cmd' not in args or not callable(args.cmd):
         parser.print_help()
     else:
-        if args.verbose > 3:
-            args.verbose = 3
-
+        args.verbose = min(args.verbose, 3)
         levels = {
             0: logging.ERROR,
             1: logging.WARNING,
@@ -511,17 +504,17 @@ class RNG:
 
     def rand(self, *args):
         result = self._rng.rand(*args)
-        print('rand: {}'.format(result))
+        print(f'rand: {result}')
         return result
 
     def normal(self, loc, scale=1, size=None):
         result = self._rng.normal(loc, scale, size)
-        print('normal: {}'.format(result))
+        print(f'normal: {result}')
         return result
 
     def uniform(self, low, high, size=None):
         result = self._rng.uniform(low, high, size)
-        print('uniform: {}'.format(result))
+        print(f'uniform: {result}')
         return result
 
 
@@ -537,25 +530,25 @@ def cmd_plot_samples(args):
     inputs  = [str(d) for d in input_path.glob('mcmc-*')]
     inputs += [str(d) for d in input_path.glob('samples')]
     for input in inputs:
-        info('plotting samples in \'{}\''.format(input))
+        info(f"plotting samples in \'{input}\'")
         basename = os.path.basename(os.path.normpath(input))
         if basename.startswith('mcmc-'):
             data = eos.data.MarkovChain(input)
         elif basename.startswith('samples'):
             data = eos.data.ImportanceSamples(input)
         else:
-            raise RuntimeError('unsupported data set: {}'.format(input))
+            raise RuntimeError(f'unsupported data set: {input}')
 
         parameters = eos.Parameters()
         for idx, p in enumerate(data.varied_parameters):
-            info('plotting histogram for {}'.format(p['name']))
+            info(f"plotting histogram for {p['name']}")
             if data.type in ['Prediction']:
                 label = eos.Observables()[p['name']]
             elif data.type in ['MarkovChain', 'ImportanceSamples']:
                 pp = parameters[p['name']]
                 label = pp.latex()
             else:
-                label = r'\verb+{}+'.format(p['name'])
+                label = f"\verb+{p['name']}+"
 
             description = {
                 'plot': {
@@ -571,7 +564,7 @@ def cmd_plot_samples(args):
                     }
                 ]
             }
-            plotter = eos.plot.Plotter(description, os.path.join(input, '{}.pdf'.format(idx)))
+            plotter = eos.plot.Plotter(description, os.path.join(input, f'{idx}.pdf'))
             plotter.plot()
 
 
@@ -630,15 +623,15 @@ def cmd_list_likelihoods(args):
         if not args.display:
             continue
 
-        if not 'constraints' in lh and not 'manual_constraints' in lh:
+        if 'constraints' not in lh and 'manual_constraints' not in lh:
             error('Likelihoods {name} specifies neither the \'constraints\' nor the \'manual_constraints\' key'.format(name=name))
             continue
 
         for c in lh['constraints'] if 'constraints' in lh else []:
-            print(' - {}'.format(c))
+            print(f' - {c}')
 
         for mc in lh['manual_constraints'] if 'manual_constraints' in lh else {}:
-            print(' - {} [manual]'.format(mc))
+            print(f' - {mc} [manual]')
 
 
 # List predictions

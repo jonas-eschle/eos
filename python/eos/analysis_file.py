@@ -33,10 +33,14 @@ class AnalysisFile:
         self.analysis_file = analysis_file
 
         if not os.path.exists(analysis_file):
-            raise RuntimeError('Cannot load analysis file: \'{}\' does not exist'.format(analysis_file))
+            raise RuntimeError(
+                f"Cannot load analysis file: \'{analysis_file}\' does not exist"
+            )
 
         if not os.path.isfile(analysis_file):
-            raise RuntimeError('Cannot load analysis file: \'{}\' is not a file'.format(analysis_file))
+            raise RuntimeError(
+                f"Cannot load analysis file: \'{analysis_file}\' is not a file"
+            )
 
         instructions = None
         with open(analysis_file) as input_file:
@@ -70,12 +74,14 @@ class AnalysisFile:
                 required_keys = ['latex', 'unit', 'options', 'expression']
                 provided_keys = input_data['observables'][name].keys()
 
-                missing_keys  = [key for key in required_keys if key not in provided_keys]
-                if missing_keys:
+                if missing_keys := [
+                    key for key in required_keys if key not in provided_keys
+                ]:
                     raise KeyError(f'Missing keys for observable { name }: { missing_keys }')
 
-                ignored_keys = [key for key in provided_keys if key not in required_keys]
-                if ignored_keys:
+                if ignored_keys := [
+                    key for key in provided_keys if key not in required_keys
+                ]:
                     eos.warn(f'Ignoring unknown keys for observable { name }: { ignored_keys }')
 
                 obs = input_data['observables'][name]
@@ -83,16 +89,15 @@ class AnalysisFile:
                 eos.Observables().insert(name, obs['latex'], eos.Unit(obs['unit']), options, obs['expression'])
                 eos.info(f'Successfully inserted observable: { name }')
 
-        if 'steps' not in input_data:
-            self._steps = []
-        else:
-            self._steps = input_data['steps']
+        self._steps = [] if 'steps' not in input_data else input_data['steps']
 
 
     def analysis(self, _posterior):
         """Create an eos.Analysis object for the named posterior."""
         if _posterior not in self._posteriors:
-            raise RuntimeError('Cannot create analysis for unknown posterior: \'{}\''.format(_posterior))
+            raise RuntimeError(
+                f"Cannot create analysis for unknown posterior: \'{_posterior}\'"
+            )
 
         posterior = self._posteriors[_posterior]
 
@@ -125,7 +130,11 @@ class AnalysisFile:
                 raise KeyError(f'Missing entry in \'likelihoods[\'{lh}\']\': neither \'constraints\' nor \'manual_constraints\' is provided')
 
             likelihood.extend(self._likelihoods[lh]['constraints'] if 'constraints' in self._likelihoods[lh] else [])
-            manual_constraints.update(self._likelihoods[lh]['manual_constraints'] if 'manual_constraints' in self._likelihoods[lh] else {})
+            manual_constraints |= (
+                self._likelihoods[lh]['manual_constraints']
+                if 'manual_constraints' in self._likelihoods[lh]
+                else {}
+            )
 
         global_options = posterior['global_options'] if 'global_options' in posterior else {}
         fixed_parameters = posterior['fixed_parameters'] if 'fixed_parameters' in posterior else {}
@@ -138,9 +147,13 @@ class AnalysisFile:
     def observables(self, _posterior, _prediction, parameters):
         """Creates a list of eos.Observable objects for the named set of posterior and predictions."""
         if _posterior not in self._posteriors:
-            raise RuntimeError('Cannot create observables for unknown posterior: \'{}\''.format(_prediction))
+            raise RuntimeError(
+                f"Cannot create observables for unknown posterior: \'{_prediction}\'"
+            )
         if _prediction not in self.predictions:
-            raise RuntimeError('Cannot create observables for unknown set of predictions: \'{}\''.format(_prediction))
+            raise RuntimeError(
+                f"Cannot create observables for unknown set of predictions: \'{_prediction}\'"
+            )
 
         posterior = self._posteriors[_posterior]
         prediction = self.predictions[_prediction]
@@ -171,22 +184,23 @@ class AnalysisFile:
             elif type(o['kinematics']) == dict:
                 kinematics = [o['kinematics']]
             else:
-                kinematics = [k for k in o['kinematics']]
+                kinematics = list(o['kinematics'])
 
-            for k in kinematics:
-                observables.append(eos.Observable.make(
-                    o['name'],
-                    parameters,
-                    eos.Kinematics(k),
-                    options
-                ))
-
+            observables.extend(
+                eos.Observable.make(
+                    o['name'], parameters, eos.Kinematics(k), options
+                )
+                for k in kinematics
+            )
         if None in observables:
-            unknown_observables = set()
-            for p, o in zip(prediction['observables'], observables):
-                if o is None:
-                    unknown_observables.add(p['name'])
-            raise RuntimeError('Prediction \'{}\' contains unknown observable names: {}'.format(_prediction, unknown_observables))
+            unknown_observables = {
+                p['name']
+                for p, o in zip(prediction['observables'], observables)
+                if o is None
+            }
+            raise RuntimeError(
+                f"Prediction \'{_prediction}\' contains unknown observable names: {unknown_observables}"
+            )
 
         return observables
 
@@ -215,9 +229,10 @@ class AnalysisFile:
 
         }
         return {
-            specific_params_map[(command, k)] if (command, k) in specific_params_map
-            else general_params_map[k] if k in general_params_map
-            else k
+            specific_params_map.get(
+                (command, k),
+                general_params_map[k] if k in general_params_map else k,
+            )
             for k, v in params.items()
         }
 
@@ -273,11 +288,7 @@ class AnalysisFile:
                 # replace format strings
                 arguments = {}
                 for key, value in _arguments.items():
-                    if type(value) is str:
-                        arguments.update({key: value.format(**_arguments)})
-                    else:
-                        arguments.update({key: value})
-
+                    arguments[key] = value.format(**_arguments) if type(value) is str else value
                 result.append(arguments)
 
             return result
@@ -305,7 +316,7 @@ class AnalysisFile:
                     arguments.update(step_arguments[task])
 
                 if base_directory:
-                    arguments.update({ 'base_directory': base_directory })
+                    arguments['base_directory'] = base_directory
 
                 return [(step_name, step_desc, task, a) for a in _expand_arguments(step_name, task, arguments)]
 
@@ -330,7 +341,7 @@ class AnalysisFile:
         graph = nx.MultiDiGraph()
         graph.add_nodes_from([step['name'] for step in self._steps])
         for step in self._steps:
-            if not 'depends-on' in step:
+            if 'depends-on' not in step:
                 continue
 
             for dep in step['depends-on']:
