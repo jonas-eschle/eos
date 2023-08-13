@@ -287,4 +287,3 @@ class deltaC79Test :
 
         }
 } delta_C79_test ;
-
